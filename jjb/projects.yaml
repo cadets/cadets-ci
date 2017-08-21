@@ -1,0 +1,6 @@
+- project:
+    name: cadets-bsd
+    branch:
+      - cadets
+    jobs:
+      - 'cadets-bsd-ci-{branch}'

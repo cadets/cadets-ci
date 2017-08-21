@@ -1,0 +1,25 @@
+- builder:
+    name: checkout-scripts
+    builders:
+      - shell: |
+          rm -fr cadets-ci
+          git clone --depth=1 --single-branch https://github.com/lwhsu/cadets-ci.git
+
+- builder:
+    name: execute-job-build-script
+    builders:
+      - shell: |
+          sh -ex cadets-ci/jobs/${JOB_NAME}/build.sh
+
+- publisher:
+    name: scan-clang-warnings
+    publishers:
+      - warnings:
+          console-log-parsers:
+            - Clang (LLVM based)
+
+- publisher:
+    name: publish-junit-results
+    publishers:
+      - junit:
+          results: test-report.xml
