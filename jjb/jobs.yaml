@@ -49,11 +49,9 @@
     publishers:
       - archive:
           artifacts: 'disk-test.img.xz'
-      - trigger-parameterized-builds:
-        - project:
-            - 'cadets-bsd-{branch}-test'
-          condition: SUCCESS
-          git-revision: true
+      - trigger:
+          project: 'cadets-bsd-{branch}-test'
+          threshold: SUCCESS
 
 - job-template:
     name: 'cadets-bsd-{branch}-test'
