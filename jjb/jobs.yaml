@@ -22,7 +22,7 @@
       - github
     builders:
       - checkout-scripts
-      - shell: cadets-ci/scripts/cadets-build.sh
+      - shell: sh -ex cadets-ci/scripts/cadets-build.sh
     publishers:
       - scan-clang-warnings
       - archive:
@@ -45,7 +45,7 @@
           fallback-to-last-successful: true
           filter: 'freebsd/release/MANIFEST, freebsd/release/base.txz, freebsd/release/kernel.txz, freebsd/release/tests.txz'
           flatten: true
-      - shell: cadets-ci/scripts/cadets-vm.sh
+      - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
     publishers:
       - archive:
           artifacts: 'disk-test.img.xz'
@@ -67,6 +67,6 @@
           fallback-to-last-successful: true
           filter: 'disk-test.img.xz'
           flatten: true
-      - shell: cadets-ci/scripts/cadets-test.sh
+      - shell: sh -ex cadets-ci/scripts/cadets-test.sh
     publishers:
       - publish-junit-results
