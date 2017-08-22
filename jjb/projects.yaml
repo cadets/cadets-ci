@@ -4,3 +4,8 @@
       - cadets
     jobs:
       - 'cadets-bsd-ci-{branch}'
+
+- project:
+    name: cadets-bsd-pull_request
+    jobs:
+      - 'cadets-bsd-ci-pull_request'
