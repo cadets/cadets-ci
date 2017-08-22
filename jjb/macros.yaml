@@ -3,7 +3,7 @@
     builders:
       - shell: |
           rm -fr cadets-ci
-          git clone --depth=1 --single-branch https://github.com/lwhsu/cadets-ci.git
+          git clone --depth=1 --single-branch https://github.com/cadets/cadets-ci.git
 
 - builder:
     name: execute-job-build-script
