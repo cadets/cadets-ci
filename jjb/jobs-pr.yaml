@@ -34,8 +34,7 @@
       - archive:
           artifacts: 'freebsd/release/MANIFEST, freebsd/release/base.txz, freebsd/release/kernel.txz, freebsd/release/tests.txz'
       - trigger:
-        - project:
-            - 'cadets-bsd-pull_request-vm'
+          project: 'cadets-bsd-pull_request-vm'
           condition: SUCCESS
 
 - job-template:
