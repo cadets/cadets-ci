@@ -48,3 +48,12 @@
               <includeCustomMessage>false</includeCustomMessage>
               <customMessage/>
             </jenkins.plugins.slack.SlackNotifier>
+
+- property:
+    name: wall-display
+    properties:
+      - raw:
+          xml: |
+            <de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty>
+              <wallDisplayName>{text}</wallDisplayName>
+            </de.pellepelster.jenkins.walldisplay.WallDisplayJobProperty>
