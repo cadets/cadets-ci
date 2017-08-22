@@ -15,7 +15,7 @@
     scm:
       - git:
           url: https://github.com/cadets/freebsd
-          refspec: '+refs/heads/*:refs/remotes/origin/*'
+          refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
           branches:
             - '${{sha1}}'
           basedir: freebsd
