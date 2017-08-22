@@ -32,6 +32,7 @@
             - 'cadets-bsd-{branch}-vm'
           condition: SUCCESS
           git-revision: true
+      - slack-notification
 
 - job-template:
     name: 'cadets-bsd-{branch}-vm'
@@ -52,6 +53,7 @@
       - trigger:
           project: 'cadets-bsd-{branch}-test'
           threshold: SUCCESS
+      - slack-notification
 
 - job-template:
     name: 'cadets-bsd-{branch}-test'
@@ -68,3 +70,4 @@
       - shell: sh -ex cadets-ci/scripts/cadets-test.sh
     publishers:
       - publish-junit-results
+      - slack-notification
