@@ -1,8 +1,13 @@
 #!/bin/sh
 
 IMG_NAME=disk-test.img
+TAR_FILE=results.tar
+TAR_FILE_SIZE=32m
 
 xz -fd ${IMG_NAME}.xz
+
+rm -f ${TAR_FILE}
+truncate -s ${TAR_FILE_SIZE} ${TAR_FILE}
 
 # run test VM image with bhyve
 TEST_VM_NAME=${JOB_NAME}-${BUILD_NUMBER}
@@ -15,21 +20,14 @@ expect -c "set timeout 7140; \
 	-s 0:0,hostbridge \
 	-s 1:0,lpc \
 	-s 2:0,ahci-hd,${IMG_NAME} \
+	-s 3:0,ahci-hd,${TAR_FILE} \
 	-l com1,stdio \
 	${TEST_VM_NAME}; \
-        expect { eof }"
+	expect { eof }"
 rc=$?
 echo "bhyve return code = $rc"
 sudo /usr/sbin/bhyvectl --vm=${TEST_VM_NAME} --destroy
 
 # extract test result
-TMP_DIR=`mktemp -d`
-MD_UNIT=`sudo mdconfig -a -t vnode -f ${IMG_NAME}`
-sudo mount /dev/${MD_UNIT}p3 ${TMP_DIR}
-
 rm -f test-report.*
-cp ${TMP_DIR}/usr/tests/test-report.* . || true
-
-sudo umount ${TMP_DIR}
-sudo mdconfig -d -u ${MD_UNIT}
-rm -fr ${TMP_DIR}
+tar xvf ${TAR_FILE}

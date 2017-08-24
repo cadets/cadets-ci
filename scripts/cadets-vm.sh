@@ -38,6 +38,7 @@ cd /usr/tests
 /usr/local/bin/kyua test
 /usr/local/bin/kyua report --verbose --results-filter passed,skipped,xfail,broken,failed --output test-report.txt
 /usr/local/bin/kyua report-junit --output=test-report.xml
+/usr/bin/tar cvf /dev/ada1 test-report.txt test-report.xml
 shutdown -p now
 EOF
 
