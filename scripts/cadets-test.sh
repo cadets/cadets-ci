@@ -2,7 +2,7 @@
 
 IMG_NAME=disk-test.img
 TAR_FILE=results.tar
-TAR_FILE_SIZE=32m
+TAR_FILE_SIZE=128m
 
 xz -fd ${IMG_NAME}.xz
 
