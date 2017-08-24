@@ -1,12 +1,12 @@
 - job-group:
     name: 'cadets-bsd-ci-{branch}'
     jobs:
-       - 'cadets-bsd-{branch}-build'
-       - 'cadets-bsd-{branch}-vm'
-       - 'cadets-bsd-{branch}-test'
+       - 'CADETS/cadets-bsd-{branch}-build'
+       - 'CADETS/cadets-bsd-{branch}-vm'
+       - 'CADETS/cadets-bsd-{branch}-test'
 
 - job-template:
-    name: 'cadets-bsd-{branch}-build'
+    name: 'CADETS/cadets-bsd-{branch}-build'
     description: FreeBSD trunk from the CADETS project ('{branch}' branch)
     defaults: global
     properties:
@@ -37,7 +37,7 @@
       - slack-notification
 
 - job-template:
-    name: 'cadets-bsd-{branch}-vm'
+    name: 'CADETS/cadets-bsd-{branch}-vm'
     defaults: global
     properties:
       - wall-display:
@@ -61,7 +61,7 @@
       - slack-notification
 
 - job-template:
-    name: 'cadets-bsd-{branch}-test'
+    name: 'CADETS/cadets-bsd-{branch}-test'
     defaults: global
     properties:
       - wall-display:
