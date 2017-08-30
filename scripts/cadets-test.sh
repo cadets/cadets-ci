@@ -24,7 +24,7 @@ expect -c "set timeout 7140; \
 	-l com1,stdio \
 	${TEST_VM_NAME}; \
 	expect \"login:\" { send \"root\\r\" }; \
-	expect \"root@:~ #\" { send \"/usr/local/bin/runtest\\r\" }; \
+	expect \"root@:~ #\" { send \"/usr/local/bin/runtests\\r\" }; \
 	expect \"kyua tests finished!\" { send \"shutdown -p now\\r\" }; \
 	expect { eof }"
 rc=$?
