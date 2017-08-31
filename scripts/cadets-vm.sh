@@ -26,33 +26,21 @@ cat <<EOF | sudo tee ufs/etc/fstab
 fdesc           /dev/fd         fdescfs rw      0       0
 EOF
 
-cat <<EOF | sudo tee ufs/usr/local/bin/runtests
+cat <<EOF | sudo tee ufs/etc/rc.local
 #!/bin/sh -ex
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 export PATH
-
-set +x
 echo
 echo "--------------------------------------------------------------"
 echo "start kyua tests!"
 echo "--------------------------------------------------------------"
-set -x
-
 cd /usr/tests
 /usr/local/bin/kyua test
 /usr/local/bin/kyua report --verbose --results-filter passed,skipped,xfail,broken,failed --output test-report.txt
 /usr/local/bin/kyua report-junit --output=test-report.xml
 /usr/bin/tar cvf /dev/ada1 test-report.txt test-report.xml
-
-set +x
-echo
-echo "--------------------------------------------------------------"
-echo "kyua tests finished!"
-echo "--------------------------------------------------------------"
-set -x
+shutdown -p now
 EOF
-
-sudo chmod 755 ufs/usr/local/bin/runtests
 
 sudo rm -f ufs/etc/resolv.conf
 
