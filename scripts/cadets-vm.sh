@@ -1,6 +1,6 @@
 #!/bin/sh
 
-OUTPUT_IMG_NAME=disk-test.img
+OUTPUT_IMG_NAME=disk-vm.img
 
 sudo rm -fr ufs > /dev/null 2>&1 || true
 sudo chflags -R noschg ufs > /dev/null 2>&1 || true
@@ -24,22 +24,6 @@ cat <<EOF | sudo tee ufs/etc/fstab
 /dev/gpt/swapfs none            swap    sw      0       0
 /dev/gpt/rootfs /               ufs     rw      1       1
 fdesc           /dev/fd         fdescfs rw      0       0
-EOF
-
-cat <<EOF | sudo tee ufs/etc/rc.local
-#!/bin/sh -ex
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-export PATH
-echo
-echo "--------------------------------------------------------------"
-echo "start kyua tests!"
-echo "--------------------------------------------------------------"
-cd /usr/tests
-/usr/local/bin/kyua test
-/usr/local/bin/kyua report --verbose --results-filter passed,skipped,xfail,broken,failed --output test-report.txt
-/usr/local/bin/kyua report-junit --output=test-report.xml
-/usr/bin/tar cvf /dev/ada1 test-report.txt test-report.xml
-shutdown -p now
 EOF
 
 sudo rm -f ufs/etc/resolv.conf
