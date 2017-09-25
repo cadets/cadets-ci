@@ -26,7 +26,7 @@ cat <<EOF | sudo tee ufs/etc/fstab
 fdesc           /dev/fd         fdescfs rw      0       0
 EOF
 
-cat <<EOF | sudo tee ufs/boot/loader/conf
+cat <<EOF | sudo tee ufs/boot/loader.conf
 console="comconsole"
 comconsole_speed="115200"
 virtio_console_load="YES"
