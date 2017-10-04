@@ -40,6 +40,6 @@ mkimg -s bsd \
 	-o /tmp/bsd.img
 mkimg -s mbr -f qcow2 \
 	-b ufs/boot/mbr \
-	-p freebsd:=bsd.img \
+	-p freebsd:=/tmp/bsd.img \
 	-o ${OUTPUT_IMG_NAME}
 xz -f -0 ${OUTPUT_IMG_NAME}
