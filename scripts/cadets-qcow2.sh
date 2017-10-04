@@ -34,12 +34,10 @@ EOF
 sudo rm -f ufs/etc/resolv.conf
 
 sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
-mkimg -s bsd \
-	-b ufs/boot/boot \
-	-p freebsd-ufs:=ufs.img \
-	-o /tmp/bsd.img
-mkimg -s mbr -f qcow2 \
-	-b ufs/boot/mbr \
-	-p freebsd:=/tmp/bsd.img \
+mkimg -s gpt -f qcow2 \
+	-b ufs/boot/pmbr \
+	-p freebsd-boot/bootfs:=ufs/boot/gptboot \
+	-p freebsd-swap/swapfs::1G \
+	-p freebsd-ufs/rootfs:=ufs.img \
 	-o ${OUTPUT_IMG_NAME}
 xz -f -0 ${OUTPUT_IMG_NAME}
