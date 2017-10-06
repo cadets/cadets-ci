@@ -21,7 +21,7 @@ sudo chroot ufs pkg install -y kyua perl5 pdksh
 
 cat <<EOF | sudo tee ufs/etc/fstab
 # Device        Mountpoint      FStype  Options Dump    Pass#
-/dev/vtbd0s1a	/               ufs     rw      1       1
+/dev/vtbd0p3	/               ufs     rw      1       1
 fdesc           /dev/fd         fdescfs rw      0       0
 EOF
 
