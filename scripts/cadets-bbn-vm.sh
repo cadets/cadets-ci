@@ -17,7 +17,7 @@ sudo cp /etc/resolv.conf ufs/etc
 sudo chroot ufs pwd_mkdb -p /etc/master.passwd
 
 sudo chroot ufs env ASSUME_ALWAYS_YES=yes pkg update
-sudo chroot ufs pkg install -y kyua perl5 pdksh kafka git
+sudo chroot ufs pkg install -y kyua perl5 pdksh kafka git python3 py36-pip
 
 cat <<EOF | sudo tee ufs/etc/fstab
 # Device        Mountpoint      FStype  Options Dump    Pass#
@@ -32,16 +32,13 @@ EOF
 cat <<EOF | sudo tee ufs/etc/rc.conf
 hostname="cadets-bbn"
 ifconfig_vtnet0="DHCP"
-ifconfig_vtnet1="DHCP"
-ifconfig_vtnet2="DHCP"
-ifconfig_vtnet3="DHCP"
 sshd_enable="YES"
 ntpd_enable="YES"
 EOF
 
 sudo rm -f ufs/etc/resolv.conf
 
-sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
+sudo makefs -d 6144 -t ffs -f 200000 -s 200g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
 mkimg -s gpt -f qcow2 \
 	-b ufs/boot/pmbr \
 	-p freebsd-boot:=ufs/boot/gptboot \
