@@ -21,9 +21,9 @@ sudo chroot ufs pkg install -y sudo bash alpine autoconf automake avro-cpp \
      bison cmake coreutils curl git gmake htop jansson jq jsoncpp kafkacat \
      librdkafka libtool links m4 maven33 nginx ninja openjdk8 php56 postfix \
      postgresql95-client postgresql95-server postgresql95-contrib tmux vim \
-     emacs25 wget zsh python3 py36-setuptools
+     emacs25 wget zsh python3 py36-setuptools py36-pip
 
-sudo chroot ufs pip3.6 install argh avro-json-serializer avro-python3 \
+sudo chroot ufs pip-3.6 install argh avro-json-serializer avro-python3 \
      confluent-kafka gevent greenlet kazoo netifaces pathtools pip \
      prometheus-client pykafka PyYAML quickavro requests setuptools \
      simplejson six tabulate tc-bbn-py watchdog
