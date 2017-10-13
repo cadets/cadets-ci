@@ -50,7 +50,7 @@ sudo rm -f ufs/etc/resolv.conf
 sudo chroot ufs echo "starc" | sudo pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
 sudo chroot ufs echo "starc" | sudo pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
 
-sudo makefs -d 6144 -t ffs -f 200000 -s 200g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
+sudo makefs -d 6144 -t ffs -s 200g -o version=2 -Z ufs.img ufs
 mkimg -s gpt -f qcow2 \
 	-b ufs/boot/pmbr \
 	-p freebsd-boot:=ufs/boot/gptboot \
