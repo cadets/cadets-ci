@@ -47,8 +47,8 @@ EOF
 
 sudo rm -f ufs/etc/resolv.conf
 
-sudo chroot ufs echo "starc" | sudo pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
-sudo chroot ufs echo "starc" | sudo pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
+sudo chroot ufs echo "starc" pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
+sudo chroot ufs echo "starc" pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
 
 sudo makefs -d 6144 -t ffs -s 200g -o version=2 -Z ufs.img ufs
 mkimg -s gpt -f qcow2 \
