@@ -33,4 +33,4 @@ cd release
 nice make clean
 nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF}"
+        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
