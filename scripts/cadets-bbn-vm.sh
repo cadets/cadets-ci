@@ -43,6 +43,7 @@ hostname="cadets-bbn"
 ifconfig_vtnet0="DHCP"
 sshd_enable="YES"
 ntpd_enable="YES"
+auditd_enable=“YES”
 EOF
 
 sudo rm -f ufs/etc/resolv.conf
