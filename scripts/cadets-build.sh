@@ -14,7 +14,7 @@ MAKECONF=/dev/null
 SRCCONF=${WORKSPACE}/src.conf
 TARGET=amd64
 TARGET_ARCH=amd64
-KERNCONF=GENERIC
+KERNCONF=CADETS-NODEBUG
 
 cd ${SRCDIR}
 nice make -j ${JFLAG} -DNO_CLEAN buildworld \
@@ -33,4 +33,4 @@ cd release
 nice make clean
 nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF}"
+        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
