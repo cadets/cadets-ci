@@ -28,6 +28,12 @@ nice make -j ${JFLAG} -DNO_CLEAN buildkernel \
         KERNCONF=${KERNCONF} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
+nice make -j ${JFLAG} -DNO_CLEAN packages \
+        TARGET=${TARGET} \
+        TARGET_ARCH=${TARGET_ARCH} \
+        KERNCONF=${KERNCONF} \
+        __MAKE_CONF=${MAKECONF} \
+        SRCCONF=${SRCCONF}
 
 cd release
 nice make clean
