@@ -1,7 +1,11 @@
 #!/bin/sh
 
 export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
-rm -fr ${MAKEOBJDIRPREFIX}
+
+# Clean up old obj tree but don't delete any package repositories.
+export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
+find ${JENKINS_OBJ_ROOT} -depth 1 -not -name repo \
+	| xargs rm -rf
 
 SRCDIR=freebsd
 JFLAG=${BUILDER_JFLAG}
