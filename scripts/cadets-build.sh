@@ -20,6 +20,13 @@ TARGET=amd64
 TARGET_ARCH=amd64
 KERNCONF=CADETS-NODEBUG
 
+# Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
+# as we often use a more recent compiler than -CURRENT. Fixing the warnings
+# is also a useful activity, but we don't want invalid comparisons in Wi-Fi to
+# block forward progress on CADETS.
+export NO_WERROR=
+export WERROR=
+
 cd ${SRCDIR}
 nice make -j ${JFLAG} -DNO_CLEAN buildworld \
         TARGET=${TARGET} \
