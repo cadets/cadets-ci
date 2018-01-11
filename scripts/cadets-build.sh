@@ -51,3 +51,9 @@ nice make clean
 nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
         MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
+
+cd ..
+RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
+cd ..
+rm -rf release-artifacts
+ln -s ${RELEASE_DIR} release-artifacts
