@@ -28,7 +28,7 @@
     publishers:
       - scan-clang-warnings
       - archive:
-          artifacts: 'freebsd/release/MANIFEST, freebsd/release/base.txz, freebsd/release/kernel.txz, freebsd/release/tests.txz'
+          artifacts: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
       - trigger-parameterized-builds:
         - project:
             - 'cadets-bsd-{branch}-vm'
@@ -49,7 +49,7 @@
           project: 'cadets-bsd-{branch}-build'
           which-build: upstream-build
           fallback-to-last-successful: true
-          filter: 'freebsd/release/MANIFEST, freebsd/release/base.txz, freebsd/release/kernel.txz, freebsd/release/tests.txz'
+          filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
           flatten: true
       - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
     publishers:
