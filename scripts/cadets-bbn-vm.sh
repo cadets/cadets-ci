@@ -16,8 +16,8 @@ sudo cp /etc/resolv.conf ufs/etc
 # workaround the current tarball has no /etc/passwd can causes pkg fail.
 sudo chroot ufs pwd_mkdb -p /etc/master.passwd
 
-sudo chroot ufs env ASSUME_ALWAYS_YES=yes pkg update
-sudo chroot ufs pkg install -y sudo bash alpine autoconf automake avro-cpp \
+sudo chroot ufs env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 pkg update
+sudo chroot ufs OSVERSION=1200056 pkg install -y sudo bash alpine autoconf automake avro-cpp \
      bison cmake coreutils curl git gmake htop jansson jq jsoncpp kafkacat \
      librdkafka libtool links m4 maven33 nginx ninja openjdk8 php56 postfix \
      postgresql95-client postgresql95-server postgresql95-contrib tmux vim \
