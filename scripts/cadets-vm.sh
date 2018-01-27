@@ -17,7 +17,7 @@ sudo cp /etc/resolv.conf ufs/etc
 sudo chroot ufs pwd_mkdb -p /etc/master.passwd
 
 sudo chroot ufs env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 pkg update
-sudo chroot ufs OSVERSION=1200056 pkg install -y kyua perl5 pdksh
+sudo chroot ufs env OSVERSION=1200056 pkg install -y kyua perl5 pdksh
 
 cat <<EOF | sudo tee ufs/etc/fstab
 # Device        Mountpoint      FStype  Options Dump    Pass#
