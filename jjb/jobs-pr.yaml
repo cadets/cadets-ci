@@ -3,6 +3,7 @@
     jobs:
        - 'CADETS/bsd-pull_request-build'
        - 'CADETS/bsd-pull_request-vm'
+       - 'CADETS/bsd-pull_request-test-vm'
        - 'CADETS/bsd-pull_request-test'
 
 - job-template:

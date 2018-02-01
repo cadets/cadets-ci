@@ -3,6 +3,7 @@
     jobs:
        - 'CADETS/bsd-{branch}-build'
        - 'CADETS/bsd-{branch}-vm'
+       - 'CADETS/bsd-{branch}-test-vm'
        - 'CADETS/bsd-{branch}-test'
 
 - job-template:
