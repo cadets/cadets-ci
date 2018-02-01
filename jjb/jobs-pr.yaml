@@ -52,6 +52,23 @@
       - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
     publishers:
       - archive:
+          artifacts: 'disk-vm.img.xz'
+
+- job-template:
+    name: 'CADETS/bsd-pull_request-test-vm'
+    defaults: global
+    node: vm_host
+    builders:
+      - checkout-scripts
+      - copyartifact:
+          project: 'bsd-pull_request-build'
+          which-build: upstream-build
+          fallback-to-last-successful: true
+          filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
+          flatten: true
+      - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
+    publishers:
+      - archive:
           artifacts: 'disk-test.img.xz'
       - trigger:
           project: 'bsd-pull_request-test'
@@ -64,7 +81,7 @@
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'bsd-pull_request-vm'
+          project: 'bsd-pull_request-test-vm'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'disk-test.img.xz'

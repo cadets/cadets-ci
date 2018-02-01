@@ -54,6 +54,27 @@
       - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
     publishers:
       - archive:
+          artifacts: 'disk-vm.img.xz'
+      - slack-notification
+
+- job-template:
+    name: 'CADETS/bsd-{branch}-test-vm'
+    defaults: global
+    properties:
+      - wall-display:
+          text: CADETS BSD ({branch}) VM
+    node: vm_host
+    builders:
+      - checkout-scripts
+      - copyartifact:
+          project: 'bsd-{branch}-build'
+          which-build: upstream-build
+          fallback-to-last-successful: true
+          filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
+          flatten: true
+      - shell: sh -ex cadets-ci/scripts/cadets-test-vm.sh
+    publishers:
+      - archive:
           artifacts: 'disk-test.img.xz'
       - trigger:
           project: 'bsd-{branch}-test'
@@ -70,7 +91,7 @@
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'bsd-{branch}-vm'
+          project: 'bsd-{branch}-test-vm'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'disk-test.img.xz'
