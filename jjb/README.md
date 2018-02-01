@@ -24,5 +24,5 @@ In `projects.yaml`:
       - cadets
       - # <name-of-new-branch>
     jobs:
-      - 'cadets-bsd-ci-{branch}'
+      - 'bsd-ci-{branch}'
 ```

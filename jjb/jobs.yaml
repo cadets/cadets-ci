@@ -1,12 +1,12 @@
 - job-group:
-    name: 'cadets-bsd-ci-{branch}'
+    name: 'bsd-ci-{branch}'
     jobs:
-       - 'CADETS/cadets-bsd-{branch}-build'
-       - 'CADETS/cadets-bsd-{branch}-vm'
-       - 'CADETS/cadets-bsd-{branch}-test'
+       - 'CADETS/bsd-{branch}-build'
+       - 'CADETS/bsd-{branch}-vm'
+       - 'CADETS/bsd-{branch}-test'
 
 - job-template:
-    name: 'CADETS/cadets-bsd-{branch}-build'
+    name: 'CADETS/bsd-{branch}-build'
     description: FreeBSD trunk from the CADETS project ('{branch}' branch)
     defaults: global
     properties:
@@ -31,13 +31,13 @@
           artifacts: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
       - trigger-parameterized-builds:
         - project:
-            - 'cadets-bsd-{branch}-vm'
+            - 'bsd-{branch}-vm'
           condition: SUCCESS
           git-revision: true
       - slack-notification
 
 - job-template:
-    name: 'CADETS/cadets-bsd-{branch}-vm'
+    name: 'CADETS/bsd-{branch}-vm'
     defaults: global
     properties:
       - wall-display:
@@ -46,7 +46,7 @@
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'cadets-bsd-{branch}-build'
+          project: 'bsd-{branch}-build'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
@@ -56,12 +56,12 @@
       - archive:
           artifacts: 'disk-test.img.xz'
       - trigger:
-          project: 'cadets-bsd-{branch}-test'
+          project: 'bsd-{branch}-test'
           threshold: SUCCESS
       - slack-notification
 
 - job-template:
-    name: 'CADETS/cadets-bsd-{branch}-test'
+    name: 'CADETS/bsd-{branch}-test'
     defaults: global
     properties:
       - wall-display:
@@ -70,7 +70,7 @@
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'cadets-bsd-{branch}-vm'
+          project: 'bsd-{branch}-vm'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'disk-test.img.xz'

@@ -1,12 +1,12 @@
 - job-group:
-    name: 'cadets-bsd-ci-pull_request'
+    name: 'bsd-ci-pull_request'
     jobs:
-       - 'CADETS/cadets-bsd-pull_request-build'
-       - 'CADETS/cadets-bsd-pull_request-vm'
-       - 'CADETS/cadets-bsd-pull_request-test'
+       - 'CADETS/bsd-pull_request-build'
+       - 'CADETS/bsd-pull_request-vm'
+       - 'CADETS/bsd-pull_request-test'
 
 - job-template:
-    name: 'CADETS/cadets-bsd-pull_request-build'
+    name: 'CADETS/bsd-pull_request-build'
     description: FreeBSD trunk from the CADETS project ('pull_request' branch)
     defaults: global
     properties:
@@ -34,17 +34,17 @@
       - archive:
           artifacts: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
       - trigger:
-          project: 'cadets-bsd-pull_request-vm'
+          project: 'bsd-pull_request-vm'
           condition: SUCCESS
 
 - job-template:
-    name: 'CADETS/cadets-bsd-pull_request-vm'
+    name: 'CADETS/bsd-pull_request-vm'
     defaults: global
     node: vm_host
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'cadets-bsd-pull_request-build'
+          project: 'bsd-pull_request-build'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
@@ -54,17 +54,17 @@
       - archive:
           artifacts: 'disk-test.img.xz'
       - trigger:
-          project: 'cadets-bsd-pull_request-test'
+          project: 'bsd-pull_request-test'
           threshold: SUCCESS
 
 - job-template:
-    name: 'CADETS/cadets-bsd-pull_request-test'
+    name: 'CADETS/bsd-pull_request-test'
     defaults: global
     node: sudo
     builders:
       - checkout-scripts
       - copyartifact:
-          project: 'cadets-bsd-pull_request-vm'
+          project: 'bsd-pull_request-vm'
           which-build: upstream-build
           fallback-to-last-successful: true
           filter: 'disk-test.img.xz'
