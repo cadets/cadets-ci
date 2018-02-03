@@ -2,6 +2,7 @@
     name: cadets-bsd
     branch:
       - cadets
+      - cadets-e3
     jobs:
       - 'bsd-ci-{branch}'
 
