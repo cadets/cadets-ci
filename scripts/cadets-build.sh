@@ -14,6 +14,7 @@ cat > ${WORKSPACE}/src.conf <<EOF
 WITH_DTRACE_TESTS=yes
 EOF
 
+MAKE=make
 MAKECONF=/dev/null
 SRCCONF=${WORKSPACE}/src.conf
 TARGET=amd64
@@ -28,18 +29,18 @@ export NO_WERROR=
 export WERROR=
 
 cd ${SRCDIR}
-nice make -j ${JFLAG} -DNO_CLEAN buildworld \
+nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildworld \
         TARGET=${TARGET} \
         TARGET_ARCH=${TARGET_ARCH} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
-nice make -j ${JFLAG} -DNO_CLEAN buildkernel \
+nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildkernel \
         TARGET=${TARGET} \
         TARGET_ARCH=${TARGET_ARCH} \
         KERNCONF=${KERNCONF} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
-nice make -j ${JFLAG} -DNO_CLEAN packages \
+nice ${MAKE} -j ${JFLAG} -DNO_CLEAN packages \
         TARGET=${TARGET} \
         TARGET_ARCH=${TARGET_ARCH} \
         KERNCONF=${KERNCONF} \
@@ -47,10 +48,10 @@ nice make -j ${JFLAG} -DNO_CLEAN packages \
         SRCCONF=${SRCCONF}
 
 cd release
-nice make clean
-nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
+nice ${MAKE} clean
+nice ${MAKE} -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
+        MAKE="${MAKE} __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
 
 cd ..
 RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
