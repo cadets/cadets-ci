@@ -3,6 +3,7 @@
     branch:
       - cadets
       - cadets-e3
+      - llprov
     jobs:
       - 'bsd-ci-{branch}'
 
