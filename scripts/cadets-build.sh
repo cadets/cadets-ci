@@ -58,9 +58,9 @@ nice ${MAKE} -j ${JFLAG} -DNO_CLEAN packages \
 
 cd release
 nice ${MAKE} clean
-nice ${MAKE} -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
+nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-        MAKE="${MAKE} __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
+        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
 
 cd ..
 RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
