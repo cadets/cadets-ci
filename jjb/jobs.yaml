@@ -3,6 +3,7 @@
     jobs:
        - 'CADETS/bsd-{branch}-build'
        - 'CADETS/bsd-{branch}-vm'
+       - 'CADETS/bsd-{branch}-bbn-vm'
        - 'CADETS/bsd-{branch}-test-vm'
        - 'CADETS/bsd-{branch}-test'
 
@@ -33,8 +34,30 @@
       - trigger-parameterized-builds:
         - project:
             - 'bsd-{branch}-vm'
+            - 'bsd-{branch}-bbn-vm'
           condition: SUCCESS
           git-revision: true
+      - slack-notification
+
+- job-template:
+    name: 'CADETS/bsd-{branch}-bbn-vm'
+    defaults: global
+    properties:
+      - wall-display:
+          text: BBN VM ({branch})
+    node: vm_host
+    builders:
+      - checkout-scripts
+      - copyartifact:
+          project: 'bsd-{branch}-build'
+          which-build: upstream-build
+          fallback-to-last-successful: true
+          filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
+          flatten: true
+      - shell: sh -ex cadets-ci/scripts/cadets-bbn-vm.sh
+    publishers:
+      - archive:
+          artifacts: 'cadets-bbn-vm.qcow2.xz'
       - slack-notification
 
 - job-template:
