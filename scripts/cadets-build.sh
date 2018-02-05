@@ -2,6 +2,15 @@
 
 export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
 
+# Find CADETS toolchain:
+CADETS=${WORKSPACE}/..
+export LLVM_PREFIX=${CADETS}/LLVM-cadets/BUILD_TYPE/Release/Release
+export LOOM_PREFIX=${CADETS}/Loom/BUILD_TYPE/Release/build
+LLVM_PROV_TOP=${CADETS}/llvm-prov
+export LLVM_PROV_PREFIX=${LLVM_PROV_TOP}/BUILD_TYPE/Release/build
+
+export PATH=${LLVM_PREFIX}:${PATH}
+
 # Clean up old obj tree but don't delete any package repositories.
 export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
 find ${JENKINS_OBJ_ROOT} -depth 1 -not -name repo \
@@ -14,7 +23,7 @@ cat > ${WORKSPACE}/src.conf <<EOF
 WITH_DTRACE_TESTS=yes
 EOF
 
-MAKE=make
+MAKE=${LLVM_PROV_TOP}/src/scripts/llvm-prov-make
 MAKECONF=/dev/null
 SRCCONF=${WORKSPACE}/src.conf
 TARGET=amd64
