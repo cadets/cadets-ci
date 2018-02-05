@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CI_ROOT=`dirname $0 | xargs dirname`
+CONFIG=${CI_ROOT}/configs/bbn
 OUTPUT_IMG_NAME=cadets-bbn-vm.qcow2
 
 sudo rm -fr ufs > /dev/null 2>&1 || true
@@ -26,23 +28,9 @@ sudo env OSVERSION=1200056 pkg -c ufs install -y sudo bash alpine autoconf autom
 #     prometheus-client pykafka PyYAML quickavro requests setuptools \
 #     simplejson six tabulate tc-bbn-py watchdog
 
-cat <<EOF | sudo tee ufs/etc/fstab
-# Device        Mountpoint      FStype  Options Dump    Pass#
-/dev/vtbd0p3	/               ufs     rw      1       1
-fdesc           /dev/fd         fdescfs rw      0       0
-EOF
-
-cat <<EOF | sudo tee ufs/boot/loader.conf
-virtio_console_load="YES"
-EOF
-
-cat <<EOF | sudo tee ufs/etc/rc.conf
-hostname="cadets-bbn"
-ifconfig_vtnet0="DHCP"
-sshd_enable="YES"
-ntpd_enable="YES"
-auditd_enable=“YES”
-EOF
+sudo cp ${CONFIG}/fstab ufs/etc/ || exit 1
+sudo cp ${CONFIG}/loader.conf ufs/boot/
+sudo cp ${CONFIG}/rc.conf ufs/etc/ || exit 1
 
 sudo chroot ufs echo "starc" pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
 sudo chroot ufs echo "starc" pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0

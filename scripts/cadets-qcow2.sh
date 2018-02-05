@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CI_ROOT=`dirname $0 | xargs dirname`
+CONFIG=${CI_ROOT}/configs/qcow2
 OUTPUT_IMG_NAME=disk-vm.qcow2
 
 sudo rm -fr ufs > /dev/null 2>&1 || true
@@ -17,17 +19,8 @@ sudo chroot ufs pwd_mkdb -p /etc/master.passwd
 sudo env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 pkg -c ufs update
 sudo env OSVERSION=1200056 pkg -c ufs install -y kyua perl5 pdksh
 
-cat <<EOF | sudo tee ufs/etc/fstab
-# Device        Mountpoint      FStype  Options Dump    Pass#
-/dev/vtbd0p3	/               ufs     rw      1       1
-fdesc           /dev/fd         fdescfs rw      0       0
-EOF
-
-cat <<EOF | sudo tee ufs/boot/loader.conf
-#console="comconsole"
-#comconsole_speed="115200"
-virtio_console_load="YES"
-EOF
+sudo cp ${CONFIG}/fstab ufs/etc/ || exit 1
+sudo cp ${CONFIG}/loader.conf ufs/boot/ || exit 1
 
 sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
 mkimg -s gpt -f qcow2 \

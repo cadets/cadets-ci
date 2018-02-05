@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CI_ROOT=`dirname $0 | xargs dirname`
+CONFIG=${CI_ROOT}/configs/default
 OUTPUT_IMG_NAME=disk-test.img
 
 sudo rm -fr ufs > /dev/null 2>&1 || true
@@ -17,28 +19,8 @@ sudo chroot ufs pwd_mkdb -p /etc/master.passwd
 sudo env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 pkg -c ufs update
 sudo env OSVERSION=1200056 pkg -c ufs install -y kyua perl5 pdksh
 
-cat <<EOF | sudo tee ufs/etc/fstab
-# Device        Mountpoint      FStype  Options Dump    Pass#
-/dev/gpt/swapfs none            swap    sw      0       0
-/dev/gpt/rootfs /               ufs     rw      1       1
-fdesc           /dev/fd         fdescfs rw      0       0
-EOF
-
-cat <<EOF | sudo tee ufs/etc/rc.local
-#!/bin/sh -ex
-PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-export PATH
-echo
-echo "--------------------------------------------------------------"
-echo "start kyua tests!"
-echo "--------------------------------------------------------------"
-cd /usr/tests
-/usr/local/bin/kyua test
-/usr/local/bin/kyua report --verbose --results-filter passed,skipped,xfail,broken,failed --output test-report.txt
-/usr/local/bin/kyua report-junit --output=test-report.xml
-/usr/bin/tar cvf /dev/ada1 test-report.txt test-report.xml
-shutdown -p now
-EOF
+sudo cp ${CONFIG}/fstab ufs/etc/ || exit 1
+sudo cp ${CONFIG}/run-tests.rc ufs/etc/rc.local || exit 1
 
 sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
 mkimg -s gpt -f raw \
