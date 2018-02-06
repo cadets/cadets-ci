@@ -67,7 +67,7 @@
           fallback-to-last-successful: true
           filter: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
           flatten: true
-      - shell: sh -ex cadets-ci/scripts/cadets-vm.sh
+      - shell: sh -ex cadets-ci/scripts/cadets-test-vm.sh
     publishers:
       - archive:
           artifacts: 'disk-test.img.xz'
