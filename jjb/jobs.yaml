@@ -15,7 +15,7 @@
       - github:
           url: https://github.com/cadets/freebsd/
       - wall-display:
-          text: CADETS BSD ({branch}) build
+          text: FreeBSD ({branch}) build
     scm:
       - git:
           url: https://github.com/cadets/freebsd
@@ -65,7 +65,7 @@
     defaults: global
     properties:
       - wall-display:
-          text: CADETS BSD ({branch}) VM
+          text: FreeBSD ({branch}) VM
     node: vm_host
     builders:
       - checkout-scripts
@@ -86,7 +86,7 @@
     defaults: global
     properties:
       - wall-display:
-          text: CADETS BSD ({branch}) VM
+          text: FreeBSD ({branch}) test VM
     node: vm_host
     builders:
       - checkout-scripts
@@ -110,7 +110,7 @@
     defaults: global
     properties:
       - wall-display:
-          text: CADETS BSD ({branch}) test
+          text: FreeBSD ({branch}) test
     node: sudo
     builders:
       - checkout-scripts

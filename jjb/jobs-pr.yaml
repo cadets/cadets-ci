@@ -12,6 +12,8 @@
     properties:
       - github:
           url: https://github.com/cadets/freebsd/
+      - wall-display:
+          text: PR build
     scm:
       - git:
           url: https://github.com/cadets/freebsd
@@ -40,6 +42,9 @@
 - job-template:
     name: 'CADETS/bsd-pull_request-test-vm'
     defaults: global
+    properties:
+      - wall-display:
+          text: PR VM
     node: vm_host
     builders:
       - checkout-scripts
@@ -60,6 +65,9 @@
 - job-template:
     name: 'CADETS/bsd-pull_request-test'
     defaults: global
+    properties:
+      - wall-display:
+          text: PR test
     node: sudo
     builders:
       - checkout-scripts
