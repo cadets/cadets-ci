@@ -34,6 +34,7 @@
       - trigger-parameterized-builds:
         - project:
             - 'bsd-{branch}-vm'
+            - 'bsd-{branch}-test-vm'
             - 'bsd-{branch}-bbn-vm'
           condition: SUCCESS
           git-revision: true
