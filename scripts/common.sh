@@ -44,6 +44,9 @@ bootstrap_packages()
 	# A missing /etc/passwd can cause pkg(8) to fail.
 	sudo chroot ${DIR} pwd_mkdb -p /etc/master.passwd || exit 1
 
+	# Temporarily copy the host's /etc/resolv.conf
+	sudo cp /etc/resolv.conf ${DIR}/etc || exit 1
+
 	# Install pkg(8) itself.
 	sudo env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 \
 		pkg -c ${DIR} update \
@@ -52,4 +55,7 @@ bootstrap_packages()
 	# Install the requested packages.
 	sudo env OSVERSION=1200056 pkg -c ${DIR} install -y ${packages} \
 		|| exit 1
+
+	# Remove temporary /etc/resolv.conf
+	sudo rm ${DIR}/etc/resolv.conf
 }
