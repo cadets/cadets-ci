@@ -39,6 +39,8 @@ initialize_root_dir()
 #
 bootstrap_packages()
 {
+	DIR="$1"
+	shift
 	packages="$*"
 
 	# A missing /etc/passwd can cause pkg(8) to fail.
