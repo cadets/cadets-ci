@@ -36,6 +36,9 @@ initialize_root_dir()
 		sudo tar xf ${tarball} -C ${DIR}
 	done
 
+	# Create initial /etc/passwd using *host* pwd_mkdb(8).
+	sudo pwd_mkdb -d ufs/etc ufs/etc/master.passwd
+
 	# Add firstboot sentinels so that growfs and pkg_bootstrap will run.
 	sudo ${INSTALL} /dev/null ufs/firstboot
 	sudo ${INSTALL} /dev/null ufs/firstboot-reboot

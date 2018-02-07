@@ -46,12 +46,6 @@ rcvar="pkg_bootstrap_enable"
 
 pkg_bootstrap_start()
 {
-	# pkg(8) can't drop privileges without an /etc/passwd file
-	if ! [ -e /etc/passwd ]
-	then
-		pwd_mkdb -p /etc/master.passwd || exit 1
-	fi
-
 	# Bootstrap pkg(8)
 	env ASSUME_ALWAYS_YES=yes ${pkg_bootstrap_env} pkg bootstrap || exit 1
 
