@@ -46,3 +46,39 @@ initialize_root_dir()
 		${CI_ROOT}/configs/default/pkg_bootstrap \
 		${DIR}/etc/rc.d/
 }
+
+
+#
+# Build a VM image from a [ch]root directory.
+#
+# Usage:  build_image <image_name> <root_directory> <image_type>
+#                     <root_fs_size> [root_fs_min_inodes]
+#
+build_image()
+{
+	directory=$1
+	image_name=$2
+	image_type=$3
+	ufs_size=$4
+	ufs_inodes=$5
+
+	makefs_flags="-t ffs -s ${ufs_size} -Z" # FFS on a sparse file
+	makefs_flags="${makefs_flags} -d 6144"  # undoc. debug flags (!)
+	makefs_flags="${makefs_flags} -o version=2,bsize=32768,fsize=4096"
+
+	if [ -n "${ufs_inodes}" ]
+	then
+		makefs_flags="${makefs_flags} -f ${ufs_inodes}"
+	fi
+
+	sudo makefs ${makefs_flags} -f 200000  -Z rootfs.img ${directory}
+
+	mkimg -s gpt -f ${image_type} \
+		-b ufs/boot/pmbr \
+		-p freebsd-boot/bootfs:=ufs/boot/gptboot \
+		-p freebsd-swap/swapfs::1G \
+		-p freebsd-ufs/rootfs:=rootfs.img \
+		-o ${image_name}
+
+	xz -f -0 ${image_name}
+}

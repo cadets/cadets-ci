@@ -2,7 +2,6 @@
 
 CI_ROOT=`dirname $0 | xargs dirname`
 CONFIG=${CI_ROOT}/configs/bbn
-OUTPUT_IMG_NAME=cadets-bbn-vm.qcow2
 
 . ${CI_ROOT}/scripts/common.sh
 
@@ -20,11 +19,4 @@ sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/
 sudo chroot ufs echo "starc" pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
 sudo chroot ufs echo "starc" pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
 
-sudo makefs -d 6144 -t ffs -f 1000000 -s 200g -o version=2 -Z ufs.img ufs
-mkimg -s gpt -f qcow2 \
-	-b ufs/boot/pmbr \
-	-p freebsd-boot:=ufs/boot/gptboot \
-	-p freebsd-swap/swapfs::1G \
-	-p freebsd-ufs/rootfs:=ufs.img \
-	-o ${OUTPUT_IMG_NAME}
-xz -f -0 ${OUTPUT_IMG_NAME}
+build_image cadets-bbn-vm.qcow2 ufs ufs.img qcow2 200g 1000000
