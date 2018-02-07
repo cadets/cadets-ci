@@ -2,7 +2,7 @@
 # Use this command to ensure consistent installation of configuration files.
 #
 export INSTALL="install -o root -g wheel -m 0644"
-export INSTALL_RC="install -o root -g wheel -m 0644"
+export INSTALL_RC="install -o root -g wheel -m 0555"
 
 #
 # Initialize a named directory with a set of specified tarballs, deleting
