@@ -13,7 +13,7 @@ sudo ${INSTALL} ${CONFIG}/loader.conf ufs/boot/ || exit 1
 sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/ || exit 1
 sudo ${INSTALL_RC} ${CONFIG}/run-tests.rc ufs/etc/rc.local || exit 1
 
-sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
+sudo makefs -d 6144 -t ffs -f 1000000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
 mkimg -s gpt -f raw \
 	-b ufs/boot/pmbr \
 	-p freebsd-boot/bootfs:=ufs/boot/gptboot \
