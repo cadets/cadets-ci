@@ -19,4 +19,4 @@ sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/
 sudo chroot ufs echo "starc" pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
 sudo chroot ufs echo "starc" pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
 
-build_image cadets-bbn-vm.qcow2 ufs ufs.img qcow2 200g 1000000
+build_image cadets-bbn-vm.qcow2 ufs qcow2 200g 1000000
