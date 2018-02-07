@@ -1,4 +1,10 @@
 #
+# Ensure that we are exposing every step of the build and that we fail clearly
+# if anything goes wrong.
+#
+set -ex
+
+#
 # Use this command to ensure consistent installation of configuration files.
 #
 export INSTALL="install -o root -g wheel -m 0644"
@@ -27,17 +33,16 @@ initialize_root_dir()
 
 	for tarball in ${TARBALLS}
 	do
-		sudo tar xf ${tarball} -C ${DIR} || exit 1
+		sudo tar xf ${tarball} -C ${DIR}
 	done
 
 	# Add firstboot sentinels so that growfs and pkg_bootstrap will run.
-	sudo ${INSTALL} /dev/null ufs/firstboot || exit 1
-	sudo ${INSTALL} /dev/null ufs/firstboot-reboot || exit 1
+	sudo ${INSTALL} /dev/null ufs/firstboot
+	sudo ${INSTALL} /dev/null ufs/firstboot-reboot
 
 	# Install our pkg(8) bootstrapping script (which will eventually end up
 	# in our FreeBSD distribution)
 	sudo ${INSTALL_RC} \
 		${CI_ROOT}/configs/default/pkg_bootstrap \
-		${DIR}/etc/rc.d/ \
-		|| exit 1
+		${DIR}/etc/rc.d/
 }

@@ -8,9 +8,9 @@ OUTPUT_IMG_NAME=disk-vm.qcow2
 
 initialize_root_dir ufs base.txz kernel.txz tests.txz
 
-sudo ${INSTALL} ${CONFIG}/fstab ufs/etc/ || exit 1
-sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/ || exit 1
-sudo ${INSTALL} ${CONFIG}/loader.conf ufs/boot/ || exit 1
+sudo ${INSTALL} ${CONFIG}/fstab ufs/etc/
+sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/
+sudo ${INSTALL} ${CONFIG}/loader.conf ufs/boot/
 
 sudo makefs -d 6144 -t ffs -f 200000 -s 2g -o version=2,bsize=32768,fsize=4096 -Z ufs.img ufs
 mkimg -s gpt -f qcow2 \

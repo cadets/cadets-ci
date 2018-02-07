@@ -13,9 +13,9 @@ initialize_root_dir ufs base.txz kernel.txz tests.txz
 #     prometheus-client pykafka PyYAML quickavro requests setuptools \
 #     simplejson six tabulate tc-bbn-py watchdog
 
-sudo ${INSTALL} ${CONFIG}/fstab ufs/etc/ || exit 1
+sudo ${INSTALL} ${CONFIG}/fstab ufs/etc/
 sudo ${INSTALL} ${CONFIG}/loader.conf ufs/boot/
-sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/ || exit 1
+sudo ${INSTALL} ${CONFIG}/rc.conf ufs/etc/
 
 sudo chroot ufs echo "starc" pw useradd -n darpa -c "DARPA" -s /bin/sh -m -h 0
 sudo chroot ufs echo "starc" pw useradd -n bbn -c "BBN" -s /bin/sh -m -h 0
