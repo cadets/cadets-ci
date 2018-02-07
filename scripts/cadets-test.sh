@@ -21,6 +21,7 @@ expect -c "set timeout 7140; \
 	-s 1:0,lpc \
 	-s 2:0,ahci-hd,${IMG_NAME} \
 	-s 3:0,ahci-hd,${TAR_FILE} \
+	-s 4:0,virtio-net,tap0 \
 	-l com1,stdio \
 	${TEST_VM_NAME}; \
 	expect { eof }"

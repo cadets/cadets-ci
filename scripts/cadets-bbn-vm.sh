@@ -7,11 +7,6 @@ OUTPUT_IMG_NAME=cadets-bbn-vm.qcow2
 . ${CI_ROOT}/scripts/common.sh
 
 initialize_root_dir ufs base.txz kernel.txz tests.txz
-bootstrap_packages ufs sudo bash alpine autoconf automake avro-cpp \
-     bison cmake coreutils curl git gmake htop jansson jq jsoncpp kafkacat \
-     librdkafka libtool links m4 maven33 nginx ninja openjdk8 php56 postfix \
-     postgresql95-client postgresql95-server postgresql95-contrib tmux vim \
-     emacs wget zsh python3 py36-setuptools py36-pip
 
 #sudo chroot ufs pip-3.6 install argh avro-json-serializer avro-python3 \
 #     confluent-kafka gevent greenlet kazoo netifaces pathtools pip \

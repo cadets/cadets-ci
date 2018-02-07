@@ -29,35 +29,15 @@ initialize_root_dir()
 	do
 		sudo tar xf ${tarball} -C ${DIR} || exit 1
 	done
-}
 
-#
-# Install a set of named packages in the given chroot directory,
-# bootstrapping pkg(8) along the way.
-#
-# Usage:  `bootstrap_packages dirname sudo vim git`
-#
-bootstrap_packages()
-{
-	DIR="$1"
-	shift
-	packages="$*"
+	# Add firstboot sentinels so that growfs and pkg_bootstrap will run.
+	sudo ${INSTALL} /dev/null ufs/firstboot || exit 1
+	sudo ${INSTALL} /dev/null ufs/firstboot-reboot || exit 1
 
-	# A missing /etc/passwd can cause pkg(8) to fail.
-	sudo chroot ${DIR} pwd_mkdb -p /etc/master.passwd || exit 1
-
-	# Temporarily copy the host's /etc/resolv.conf
-	sudo cp /etc/resolv.conf ${DIR}/etc || exit 1
-
-	# Install pkg(8) itself.
-	sudo env ASSUME_ALWAYS_YES=yes OSVERSION=1200056 \
-		pkg -c ${DIR} update \
+	# Install our pkg(8) bootstrapping script (which will eventually end up
+	# in our FreeBSD distribution)
+	sudo ${INSTALL_RC} \
+		${CI_ROOT}/configs/default/pkg_bootstrap \
+		${DIR}/etc/rc.d/ \
 		|| exit 1
-
-	# Install the requested packages.
-	sudo env OSVERSION=1200056 pkg -c ${DIR} install -y ${packages} \
-		|| exit 1
-
-	# Remove temporary /etc/resolv.conf
-	sudo rm ${DIR}/etc/resolv.conf
 }
