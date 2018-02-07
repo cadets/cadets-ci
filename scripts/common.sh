@@ -56,8 +56,8 @@ initialize_root_dir()
 #
 build_image()
 {
-	directory=$1
-	image_name=$2
+	image_name=$1
+	directory=$2
 	image_type=$3
 	ufs_size=$4
 	ufs_inodes=$5
