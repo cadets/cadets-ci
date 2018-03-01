@@ -12,11 +12,13 @@
     properties:
       - github:
           url: https://github.com/cadets/freebsd/
+          timeout: 30
       - wall-display:
           text: PR build
     scm:
       - git:
           url: https://github.com/cadets/freebsd
+          timeout: 30
           refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
           branches:
             - '${{sha1}}'

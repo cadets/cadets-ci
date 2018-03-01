@@ -14,11 +14,13 @@
     properties:
       - github:
           url: https://github.com/cadets/freebsd/
+          timeout: 30
       - wall-display:
           text: FreeBSD ({branch}) build
     scm:
       - git:
           url: https://github.com/cadets/freebsd
+          timeout: 30
           branches:
             - '*/{branch}'
           basedir: freebsd
