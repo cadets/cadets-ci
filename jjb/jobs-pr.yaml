@@ -70,7 +70,7 @@
     properties:
       - wall-display:
           text: PR test
-    node: sudo
+    node: vm_host
     builders:
       - checkout-scripts
       - copyartifact:
