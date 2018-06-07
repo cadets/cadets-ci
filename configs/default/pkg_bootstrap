@@ -1,11 +1,13 @@
-#-
+#!/bin/sh
+#
+# Copyright (c) 2013, 2014, 2017 Colin Percival
 # Copyright (c) 2018 Jonathan Anderson
 # All rights reserved.
 #
-# This software was developed by BAE Systems, the University of Cambridge
-# Computer Laboratory, and Memorial University under DARPA/AFRL contract
-# FA8650-15-C-7558 ("CADETS"), as part of the DARPA Transparent Computing
-# (TC) research program.
+# Portions of this software were developed by BAE Systems, the University of
+# Cambridge Computer Laboratory, and Memorial University under DARPA/AFRL
+# contract FA8650-15-C-7558 ("CADETS"), as part of the DARPA Transparent
+# Computing (TC) research program.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -31,29 +33,60 @@
 # $FreeBSD$
 #
 
-# PROVIDE: pkg-bootstrap
-# REQUIRE: NETWORKING growfs
-# BEFORE:  local
-# KEYWORD: firstboot
+#
+# Install packages the first time the system comes up.
+#
+# When cross-building VMs, it may not be possible to run `pkg --chroot` from the
+# build environment. As an alternative, this script allows packages to be
+# automatically installed on first boot. To enable this functionality, add the
+# following to /etc/rc.conf.local or /etc/rc.conf:
+#
+# pkg_bootstrap_enable="YES"
+# pkg_bootstrap_packages="nginx xfce"  # etc.
+#
+
+# PROVIDE: pkg_bootstrap
+# REQUIRE: FILESYSTEMS NETWORKING growfs
+# BEFORE: LOGIN
+# KEYWORD: bootstrap
 
 . /etc/rc.subr
 
-name="pkg-bootstrap"
+name="pkg_bootstrap"
 desc="Bootstrap pkg(8) and an (optional) set of packages"
+rcvar=pkg_bootstrap_enable
 start_cmd="pkg_bootstrap_start"
 stop_cmd=":"
-rcvar="pkg_bootstrap_enable"
+
+: ${pkg_bootstrap_enable:="NO"}
 
 pkg_bootstrap_start()
 {
+
+	# The packages we install may install new rc scripts. Count the current
+	# rc scripts in /usr/local/etc to detect this for later comparison.
+	local_rc_scripts=`ls /usr/local/etc/rc.d | wc -l`
+
 	# Bootstrap pkg(8)
-	env ASSUME_ALWAYS_YES=yes ${pkg_bootstrap_env} pkg bootstrap || exit 1
+	if ! pkg -N 2>/dev/null; then
+		env ASSUME_ALWAYS_YES=YES pkg bootstrap |
+		    cat
+	fi
 
 	# Install any requested packages
-	if [ -n "${pkg_bootstrap_list}" ]
-	then
-		env ${pkg_bootstrap_env} pkg install -y ${pkg_bootstrap_list} \
-		|| exit 1
+	for package in ${pkg_bootstrap_packages}; do
+		env ASSUME_ALWAYS_YES=YES pkg install ${package} </dev/null |
+		    cat
+	done
+
+	# Count rc.d scripts again, and if there are more then request a
+	# reboot to catch the new scripts
+	local_rc_scripts_postinst=`ls /usr/local/etc/rc.d | wc -l`
+
+	# If we have more scripts, request a reboot
+	if [ $local_rc_scripts -ne $local_rc_scripts_postinst ]; then
+		echo "Requesting reboot after installation of new rc.d scripts"
+		touch ${firstboot_sentinel}-reboot
 	fi
 }
 
