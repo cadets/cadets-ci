@@ -4,6 +4,7 @@
       - cadets
       - cadets-e3
       - llprov
+      - cadets-mfc
     jobs:
       - 'bsd-ci-{branch}'
 
