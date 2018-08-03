@@ -47,7 +47,7 @@
 
 # PROVIDE: pkg_bootstrap
 # REQUIRE: FILESYSTEMS NETWORKING growfs
-# BEFORE: LOGIN
+# BEFORE: LOGIN local
 # KEYWORD: bootstrap
 
 . /etc/rc.subr
