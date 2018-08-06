@@ -6,6 +6,19 @@ TAR_FILE_SIZE=128m
 
 xz -fd ${IMG_NAME}.xz
 
+# assume the physical interface of the host is the first in the ifconfig list
+PHY_IF=$(ifconfig -l|cut -d " " -f1,1)
+#load the bhyve module
+sudo kldload vmm
+
+# prepare the host
+sudo ifconfig tap0 create
+sudo sysctl net.link.tap.up_on_open=1
+sudo ifconfig bridge0 create
+sudo ifconfig bridge0 addm ${PHY_IF} addm tap0
+sudo ifconfig bridge0 up
+
+
 rm -f ${TAR_FILE}
 truncate -s ${TAR_FILE_SIZE} ${TAR_FILE}
 
@@ -32,3 +45,7 @@ sudo /usr/sbin/bhyvectl --vm=${TEST_VM_NAME} --destroy
 # extract test result
 rm -f test-report.*
 tar xvf ${TAR_FILE}
+
+#remove the changed made to the host
+sudo ifconfig tap0 destroy
+sudo ifconfig bridge0 destroy
