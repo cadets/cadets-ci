@@ -8,9 +8,13 @@ xz -fd ${IMG_NAME}.xz
 
 # assume the physical interface of the host is the first in the ifconfig list
 PHY_IF=$(ifconfig -l|cut -d " " -f1,1)
-#load the bhyve module
-sudo kldload vmm
 
+#load the bhyve module if not loaded
+sudo kldstat|grep -q vmm 
+if [ $? -ne 0 ]
+    sudo kldload vmm
+fi
+    
 # prepare the host
 sudo ifconfig tap0 create
 sudo sysctl net.link.tap.up_on_open=1
