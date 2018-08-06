@@ -12,6 +12,7 @@ PHY_IF=$(ifconfig -l|cut -d " " -f1,1)
 #load the bhyve module if not loaded
 sudo kldstat|grep -q vmm 
 if [ $? -ne 0 ]
+then
     sudo kldload vmm
 fi
     
