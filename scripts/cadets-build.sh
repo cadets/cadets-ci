@@ -1,7 +1,9 @@
 #!/bin/sh
 
+SRCDIR=freebsd
+
 export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
-mkdir -p ${MAKEOBJDIR}
+mkdir -p `make -C ${SRCDIR} -V MAKEOBJDIR`
 
 # Find CADETS toolchain:
 CADETS=${WORKSPACE}/..
@@ -11,8 +13,6 @@ LLVM_PROV_TOP=${CADETS}/llvm-prov
 export LLVM_PROV_PREFIX=${LLVM_PROV_TOP}/BUILD_TYPE/Release/build
 
 export PATH=${LLVM_PREFIX}:${PATH}
-
-SRCDIR=freebsd
 
 # Clean up old obj tree but don't delete any package repositories.
 export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
