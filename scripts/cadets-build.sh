@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
+mkdir -p ${MAKEOBJDIRPREFIX}
 
 # Find CADETS toolchain:
 CADETS=${WORKSPACE}/..
