@@ -51,7 +51,7 @@ nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildkernel \
         KERNCONF=${KERNCONF} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
-nice ${MAKE} -j ${JFLAG} -DNO_CLEAN packages \
+nice ${MAKE} -j ${JFLAG} -DNO_CLEAN -DDB_FROM_SRC packages \
         TARGET=${TARGET} \
         TARGET_ARCH=${TARGET_ARCH} \
         KERNCONF=${KERNCONF} \
@@ -60,7 +60,7 @@ nice ${MAKE} -j ${JFLAG} -DNO_CLEAN packages \
 
 cd release
 nice ${MAKE} clean
-nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC packagesystem \
+nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
         MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
 
