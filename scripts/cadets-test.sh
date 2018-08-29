@@ -13,6 +13,10 @@ PHY_IF=$(ifconfig -l|cut -d " " -f1,1)
 sudo kldload -n vmm
     
 # prepare the host
+#   cleanup
+sudo ifconfig tap0 destroy
+sudo ifconfig bridge0 destroy
+#   prepare network interface
 sudo ifconfig tap0 create
 sudo sysctl net.link.tap.up_on_open=1
 sudo ifconfig bridge0 create
