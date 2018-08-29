@@ -3,6 +3,7 @@
     branch:
       - cadets
       - cadets-e3
+      - cadets-e4
       - llprov
       - cadets-mfc
       - cadets-e4-plus-vm
