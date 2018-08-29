@@ -18,8 +18,8 @@ sudo kldload -n vmm
     
 # prepare the host
 #   cleanup
-sudo ifconfig ${TAP_IF} destroy
-sudo ifconfig ${BRIDGE_IF} destroy
+sudo ifconfig ${TAP_IF} destroy || true
+sudo ifconfig ${BRIDGE_IF} destroy || true
 #   prepare network interface
 sudo ifconfig ${TAP_IF} create
 sudo sysctl net.link.tap.up_on_open=1
