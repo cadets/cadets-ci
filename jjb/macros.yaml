@@ -33,7 +33,6 @@
               <teamDomain>cadets</teamDomain>
               <authToken/>
               <authTokenCredentialId>d34e56c1-b102-4a93-8178-26c9ba0c52a9</authTokenCredentialId>
-              <buildServerUrl>/</buildServerUrl>
               <room>#ci</room>
               <startNotification>false</startNotification>
               <notifySuccess>false</notifySuccess>
