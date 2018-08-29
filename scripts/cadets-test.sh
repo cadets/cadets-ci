@@ -4,6 +4,10 @@ IMG_NAME=disk-test.img
 TAR_FILE=results.tar
 TAR_FILE_SIZE=128m
 
+EXECUTOR_NUMBER=${EXECUTOR_NUMBER:-0}
+TAP_IF=tap${EXECUTOR_NUMBER}
+BRIDGE_IF=bridge${EXECUTOR_NUMBER}
+
 xz -fd ${IMG_NAME}.xz
 
 # assume the physical interface of the host is the first in the ifconfig list
@@ -14,14 +18,14 @@ sudo kldload -n vmm
     
 # prepare the host
 #   cleanup
-sudo ifconfig tap0 destroy
-sudo ifconfig bridge0 destroy
+sudo ifconfig ${TAP_IF} destroy
+sudo ifconfig ${BRIDGE_IF} destroy
 #   prepare network interface
-sudo ifconfig tap0 create
+sudo ifconfig ${TAP_IF} create
 sudo sysctl net.link.tap.up_on_open=1
-sudo ifconfig bridge0 create
-sudo ifconfig bridge0 addm ${PHY_IF} addm tap0
-sudo ifconfig bridge0 up
+sudo ifconfig ${BRIDGE_IF} create
+sudo ifconfig ${BRIDGE_IF} addm ${PHY_IF} addm ${TAP_IF}
+sudo ifconfig ${BRIDGE_IF} up
 
 
 rm -f ${TAR_FILE}
@@ -39,7 +43,7 @@ expect -c "set timeout 14340; \
 	-s 1:0,lpc \
 	-s 2:0,ahci-hd,${IMG_NAME} \
 	-s 3:0,ahci-hd,${TAR_FILE} \
-	-s 4:0,virtio-net,tap0 \
+	-s 4:0,virtio-net,${TAP_IF} \
 	-l com1,stdio \
 	${TEST_VM_NAME}; \
 	expect { eof }"
@@ -52,5 +56,5 @@ rm -f test-report.*
 tar xvf ${TAR_FILE}
 
 #remove the changed made to the host
-sudo ifconfig tap0 destroy
-sudo ifconfig bridge0 destroy
+sudo ifconfig ${TAP_IF} destroy
+sudo ifconfig ${BRIDGE_IF} destroy
