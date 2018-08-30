@@ -22,7 +22,7 @@ sudo ifconfig ${TAP_IF} destroy || true
 #   prepare network interface
 sudo ifconfig ${TAP_IF} create
 sudo sysctl net.link.tap.up_on_open=1
-if [ `ifconfig ${BR} 2> /dev/null | wc -l` -eq 0 ]; then
+if [ `ifconfig ${BRIDGE_IF} 2> /dev/null | wc -l` -eq 0 ]; then
 	sudo ifconfig ${BRIDGE_IF} create
 	sudo ifconfig ${BRIDGE_IF} addm ${PHY_IF}
 	sudo ifconfig ${BRIDGE_IF} up
