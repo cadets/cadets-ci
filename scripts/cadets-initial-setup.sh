@@ -3,7 +3,7 @@
 set -e
 
 echo "Installing needed packages..."
-su root -c 'env OSVERSION=1200056 pkg install sudo python3 git maven3 gmake'
+su root -c 'pkg install sudo python3 git maven3 gmake'
 
 #echo "Installing optional packages..."
 # sudo pkg install vim
