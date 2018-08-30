@@ -6,7 +6,7 @@ TAR_FILE_SIZE=128m
 
 EXECUTOR_NUMBER=${EXECUTOR_NUMBER:-0}
 TAP_IF=tap${EXECUTOR_NUMBER}
-BRIDGE_IF=bridge${EXECUTOR_NUMBER}
+BRIDGE_IF=bridge0
 
 xz -fd ${IMG_NAME}.xz
 
@@ -19,14 +19,15 @@ sudo kldload -n vmm
 # prepare the host
 #   cleanup
 sudo ifconfig ${TAP_IF} destroy || true
-sudo ifconfig ${BRIDGE_IF} destroy || true
 #   prepare network interface
 sudo ifconfig ${TAP_IF} create
 sudo sysctl net.link.tap.up_on_open=1
-sudo ifconfig ${BRIDGE_IF} create
-sudo ifconfig ${BRIDGE_IF} addm ${PHY_IF} addm ${TAP_IF}
-sudo ifconfig ${BRIDGE_IF} up
-
+if [ `ifconfig ${BR} 2> /dev/null | wc -l` -eq 0 ]; then
+	sudo ifconfig ${BRIDGE_IF} create
+	sudo ifconfig ${BRIDGE_IF} addm ${PHY_IF}
+	sudo ifconfig ${BRIDGE_IF} up
+fi
+sudo ifconfig ${BRIDGE_IF} addm ${TAP_IF}
 
 rm -f ${TAR_FILE}
 truncate -s ${TAR_FILE_SIZE} ${TAR_FILE}
@@ -56,5 +57,10 @@ rm -f test-report.*
 tar xvf ${TAR_FILE}
 
 #remove the changed made to the host
+sudo ifconfig ${BRIDGE_IF} deletem ${TAP_IF}
 sudo ifconfig ${TAP_IF} destroy
-sudo ifconfig ${BRIDGE_IF} destroy
+
+
+if [ `ifconfig ${BRIDGE_IF} | grep member: | grep -v $PHY_IF` -eq 0 ]; then
+	sudo ifconfig ${BRIDGE_IF} destroy
+fi
