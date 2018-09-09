@@ -3,6 +3,11 @@
 IMG_NAME=disk-test.img
 TAR_FILE=results.tar
 TAR_FILE_SIZE=128m
+# for the BBN testbed, they use specific MAC addresses 
+# MAC_ADDR_TAP0=52:54:00:f0:0d:25
+# MAC_ADDR_TAP1=52:54:00:f0:08:25
+# one could pass the MAC address to the ${TAP_IF} by using
+# -s 4:0,virtio-net,${TAP_IF},mac=${MAC_ADDR_TAP0}
 
 EXECUTOR_NUMBER=${EXECUTOR_NUMBER:-0}
 TAP_IF=tap${EXECUTOR_NUMBER}
