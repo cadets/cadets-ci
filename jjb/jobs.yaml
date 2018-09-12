@@ -60,7 +60,7 @@
       - shell: sh -ex cadets-ci/scripts/cadets-bbn-vm.sh
     publishers:
       - archive:
-          artifacts: 'cadets-bbn-vm.qcow2.xz'
+          artifacts: 'cadets-bbn-vm.xz'
       - slack-notification
 
 - job-template:
