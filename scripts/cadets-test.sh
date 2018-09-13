@@ -1,8 +1,13 @@
 #!/bin/sh
 
+CI_ROOT=`dirname $0 | xargs dirname`
+CONFIG=${CI_ROOT}/configs/default
+
 IMG_NAME=disk-test.img
-TAR_FILE=results.tar
+TAR_FILE=meta.tar
 TAR_FILE_SIZE=128m
+METADIR=meta
+METAOUTDIR=meta-out
 # for the BBN testbed, they use specific MAC addresses 
 # MAC_ADDR_TAP0=52:54:00:f0:0d:25
 # MAC_ADDR_TAP1=52:54:00:f0:08:25
@@ -34,8 +39,14 @@ if [ `ifconfig ${BRIDGE_IF} 2> /dev/null | wc -l` -eq 0 ]; then
 fi
 sudo ifconfig ${BRIDGE_IF} addm ${TAP_IF}
 
+# prepare meta disk to pass information to testvm
+rm -fr ${METADIR}
+mkdir ${METADIR}
+cp -R ${CONFIG}/run-tests.rc ${METADIR}/run.sh
+touch ${METADIR}/auto-shutdown
 rm -f ${TAR_FILE}
 truncate -s ${TAR_FILE_SIZE} ${TAR_FILE}
+tar rvf ${TAR_FILE} -C ${METADIR} .
 
 # run test VM image with bhyve
 TEST_VM_NAME=${JOB_NAME}-${BUILD_NUMBER}
@@ -58,8 +69,11 @@ echo "bhyve return code = $rc"
 sudo /usr/sbin/bhyvectl --vm=${TEST_VM_NAME} --destroy
 
 # extract test result
+rm -fr ${METAOUTDIR}
+mkdir ${METAOUTDIR}
+tar xvf ${TAR_FILE} -C ${METAOUTDIR}
 rm -f test-report.*
-tar xvf ${TAR_FILE}
+mv ${METAOUTDIR}/test-report.* .
 
 #remove the changed made to the host
 sudo ifconfig ${BRIDGE_IF} deletem ${TAP_IF}
