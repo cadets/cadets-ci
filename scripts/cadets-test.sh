@@ -80,6 +80,6 @@ sudo ifconfig ${BRIDGE_IF} deletem ${TAP_IF}
 sudo ifconfig ${TAP_IF} destroy
 
 
-if [ `ifconfig ${BRIDGE_IF} | grep member: | grep -v $PHY_IF` -eq 0 ]; then
+if [ "`ifconfig ${BRIDGE_IF} | grep member: | grep -v $PHY_IF`" != "" ]; then
 	sudo ifconfig ${BRIDGE_IF} destroy
 fi
