@@ -78,7 +78,8 @@ cadets-e4: {
 EOF
 
     # add the public keys to the cadets-e4 repo
-    cat > /usr/share/keys/pkg/trusted/ <<EOF
+    mkdir -p /usr/share/keys/pkg/trusted
+    cat > /usr/share/keys/pkg/trusted/cadets-e4_pub.txt <<EOF
 -----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Xm7NWk1bfBYmuoINHj+
 7leABoiSSZwjKEpl03jsjgnrbNhSQHJJF/PhsBMvHP1nEDLcIYnP0HDrUp4DAjd9
