@@ -46,7 +46,8 @@ initialize_root_dir()
 	# Install our pkg(8) bootstrapping script (which will eventually end up
 	# in our FreeBSD distribution)
 	sudo ${INSTALL_RC} \
-		${CI_ROOT}/configs/default/pkg_bootstrap \
+	     ${CI_ROOT}/configs/default/pkg_bootstrap \
+	     ${CI_ROOT}/configs/default/cadets_pkg_bootstrap \
 		${DIR}/etc/rc.d/
 }
 
