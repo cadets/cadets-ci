@@ -57,6 +57,8 @@ desc="Bootstrap pkg(8) and an (optional) set of packages"
 rcvar=pkg_bootstrap_enable
 start_cmd="pkg_bootstrap_start"
 stop_cmd=":"
+#extra_commands="setCadetsdDB"
+#setCadetsDB_cmd="do_setCadetsDB"
 
 : ${pkg_bootstrap_enable:="NO"}
 

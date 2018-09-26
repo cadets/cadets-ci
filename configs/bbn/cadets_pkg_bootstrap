@@ -1,0 +1,103 @@
+#!/bin/sh
+
+# Copyright (c) 2018 Silviu Chiricescu
+# All rights reserved.
+#
+# Portions of this software were developed by BAE Systems, the University of
+# Cambridge Computer Laboratory, and Memorial University under DARPA/AFRL
+# contract FA8650-15-C-7558 ("CADETS"), as part of the DARPA Transparent
+# Computing (TC) research program.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+# $FreeBSD$
+#
+
+# Sets up the pkg repository to point to our CADETS repo.
+# To enable this functionality, add the
+# following to /etc/rc.conf.local or /etc/rc.conf:
+#
+# cadets_pkg_bootstrap_enable="YES"
+#
+
+# PROVIDE: cadets_pkg_bootstrap
+# REQUIRE: FILESYSTEMS NETWORKING growfs
+# BEFORE: LOGIN local pkg_bootstrap
+# KEYWORD: cadets_bootstrap
+
+. /etc/rc.subr
+
+name="cadets_pkg_bootstrap"
+desc="Bootstrap the repository for pkg(8) pointing it to CADETS builds"
+rcvar=cadets_pkg_bootstrap_enable
+start_cmd="cadets_pkg_bootstrap_start"
+stop_cmd=":"
+
+: ${cadets_pkg_bootstrap_enable:="NO"}
+
+cadets_pkg_bootstrap_start()
+{
+
+    mkdir -p /usr/local/etc/pkg/repos/
+    # disable the FreeBSD pkg repo
+    echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
+    # enable the cadets-e4 repo
+    cat > /usr/local/etc/pkg/repos/cadets-e4.conf <<EOF
+# $cadets-e4$
+#   
+# MIRROR_TYPE of NONE,  any of the URL schemes supported by
+#     libfetch(3) can be used, including: http://, https://, ftp://, or
+#     file://.  In addition a ssh:// URL scheme is also supported.
+
+cadets-e4: {
+  url: "https://allendale.engr.mun.ca/cadets/e4/packages/${ABI}/latest",
+  mirror_type: "none",
+  signature_type: "pubkey",
+  pubkey: "/usr/share/keys/pkg/trusted/cadets-e4_pub.txt",
+  enabled: yes
+}
+EOF
+
+    # add the public keys to the cadets-e4 repo
+    cat > /usr/share/keys/pkg/trusted/ <<EOF
+-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Xm7NWk1bfBYmuoINHj+
+7leABoiSSZwjKEpl03jsjgnrbNhSQHJJF/PhsBMvHP1nEDLcIYnP0HDrUp4DAjd9
+RZY4p+gggxz9sTt9z+ABsCY96BgRVLis6hXuBcpWuKGVCBA7qLnZh6XcDBPpAoGy
+fE4JOpCYyY3FFvDl8Au7lI+yU8idVPNCd2ZckWCJ7p05suUizCF9i/kYjFn5KlhK
+qi7Nu9N8kl3VlTI/Z+jRXFqR3iD+wCWj9hM0kK92KvNfCo4/DPVEImXm7DSGfLIe
+s6GNNkYWUyHK3fpMdD5g27zSUuWha456ZnIY1p/x9E7MNwlaVzm0tXwGogM7ZXqV
+fsDGdRg+bNoI1/UlZf3npF6Oi2Rb58CSl0juNdGB1IJnOl20i18GrN3nOLHCUOhS
+w0lxZQbQZunN6V6WHZKbcRuZvs7enOYqAD7kuZpJ6VpoEYetTSmjd+gwYLHPY1bB
+Ocm+o3W+O3DVSmh8nINFWmbd/RndDxELv+jxBftUcfJXH7xd23ozAxqacKiAQz9f
+y+YDP/InmEfAQbF2tYg9/koUyMgFc63j14JYf3Zzt9T+qHWzM7lYyuBZ4BP0FXLp
+B4l92TeFexR4F7vvSWT3UfiudyKaEPWRXtbgcJY+owv7wxxuJWIpxYIRvSxkrXHW
+RXEL+2P/8kgbTxYHBClE0pUCAwEAAQ==
+-----END PUBLIC KEY-----
+EOF
+
+    # update the pkg database
+    pkg update
+}
+
+load_rc_config $name
+run_rc_command "$1"
