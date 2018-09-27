@@ -32,6 +32,7 @@ TARGET=amd64
 TARGET_ARCH=amd64
 KERNCONF=CADETS-LITE
 
+
 # Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
 # as we often use a more recent compiler than -CURRENT. Fixing the warnings
 # is also a useful activity, but we don't want invalid comparisons in Wi-Fi to
@@ -63,6 +64,13 @@ nice ${MAKE} clean
 nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC packagesystem \
         TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
         MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
+
+nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC memstick \
+     TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
+     WITH_COMPRESSED_IMAGES="YES" \
+     MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
+
+
 
 cd ..
 RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"

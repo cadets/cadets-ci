@@ -32,7 +32,7 @@
     publishers:
       - scan-clang-warnings
       - archive:
-          artifacts: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz'
+          artifacts: 'release-artifacts/MANIFEST, release-artifacts/base.txz, release-artifacts/kernel.txz, release-artifacts/tests.txz release-artifacts/memstick.img'
       - trigger-parameterized-builds:
         - project:
             - 'bsd-{branch}-vm'
