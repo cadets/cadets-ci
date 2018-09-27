@@ -69,7 +69,7 @@ cadets_pkg_bootstrap_start()
 #     file://.  In addition a ssh:// URL scheme is also supported.
 
 cadets-e4: {
-  url: "https://allendale.engr.mun.ca/cadets/e4/packages/${ABI}/latest",
+  url: "https://allendale.engr.mun.ca/cadets/e4/packages/FreeBSD%3A12%3Aamd64/latest",
   mirror_type: "none",
   signature_type: "pubkey",
   pubkey: "/usr/share/keys/pkg/trusted/cadets-e4_pub.txt",
