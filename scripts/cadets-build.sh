@@ -69,7 +69,7 @@ nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC packagesystem \
 ## this is a hack to get mkimg(1) to be sourced from the dir below
 ## this version of mkimg accepts the -a argument needed by the memstick target below
 MK_IMG_PREFIX=/var/build/jon/obj/usr/home/jon/freebsd/current/amd64.amd64/usr.bin/
-export PATH=${MK_IMG__PREFIX}:${PATH}
+export PATH=${MK_IMG_PREFIX}:${PATH}
 
 nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC memstick \
      TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
