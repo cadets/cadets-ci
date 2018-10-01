@@ -5,7 +5,7 @@ CONFIG=${CI_ROOT}/configs/bbn
 
 . ${CI_ROOT}/scripts/common.sh
 
-initialize_root_dir ufs base.txz kernel.txz tests.txz
+initialize_root_dir ufs base.txz kernel.txz tests.txz ${CONFIG}/ca_root_nss-3.39-7bed502193.txz
 
 #sudo chroot ufs pip-3.6 install argh avro-json-serializer avro-python3 \
 #     confluent-kafka gevent greenlet kazoo netifaces pathtools pip \
