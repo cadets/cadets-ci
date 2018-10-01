@@ -67,12 +67,13 @@ cadets_pkg_bootstrap_start()
 # MIRROR_TYPE of NONE,  any of the URL schemes supported by
 #     libfetch(3) can be used, including: http://, https://, ftp://, or
 #     file://.  In addition a ssh:// URL scheme is also supported.
+# temp disable the pubkey signature type
 
 cadets-e4: {
   url: "https://allendale.engr.mun.ca/cadets/e4/packages/FreeBSD%3A12%3Aamd64/latest",
   mirror_type: "none",
-  signature_type: "pubkey",
-  pubkey: "/usr/share/keys/pkg/trusted/cadets-e4_pub.txt",
+#  signature_type: "pubkey",
+#  pubkey: "/usr/share/keys/pkg/trusted/cadets-e4_pub.txt",
   enabled: yes
 }
 EOF
