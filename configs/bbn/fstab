@@ -2,4 +2,3 @@
 /dev/ada0p3	/               ufs     rw      1       1
 fdesc           /dev/fd         fdescfs rw      0       0
 proc		/proc		procfs	rw	0	0
-/dev/ada0p2     /dev/dumpdev    swap    sw      1       2
