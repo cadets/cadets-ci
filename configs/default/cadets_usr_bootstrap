@@ -39,7 +39,7 @@
 # To enable this functionality, add the
 # following to /etc/rc.conf.local or /etc/rc.conf:
 #
-# cadets_pkg_bootstrap_enable="YES"
+# cadets_usr_bootstrap_enable="YES"
 # cadets_usr_bootstrap_list="bbn darpa"
 #
 

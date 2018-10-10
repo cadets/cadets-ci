@@ -48,6 +48,7 @@ initialize_root_dir()
 	sudo ${INSTALL_RC} \
 	     ${CI_ROOT}/configs/default/pkg_bootstrap \
 	     ${CI_ROOT}/configs/default/cadets_pkg_bootstrap \
+	     ${CI_ROOT}/configs/default/cadets_usr_bootstrap \
 		${DIR}/etc/rc.d/
 }
 
