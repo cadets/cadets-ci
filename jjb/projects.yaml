@@ -15,3 +15,8 @@
     name: bsd-pull_request
     jobs:
       - 'bsd-ci-pull_request'
+
+- project:
+    name: LLVM
+    jobs:
+      - 'LLVM-cadets'
