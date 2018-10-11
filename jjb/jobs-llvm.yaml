@@ -1,0 +1,53 @@
+- job-group:
+    name: 'LLVM-cadets'
+    jobs:
+       - 'CADETS/LLVM-cadets'
+
+- job-template:
+    name: 'CADETS/LLVM-cadets'
+    project-type: matrix
+    concurrent: false
+    block-downstream: true
+    block-upstream: false
+    execution-strategy:
+      sequential: true
+      touchstone:
+        expr: 'BUILD_TYPE == "Release"'
+        result: unstable
+    properties:
+      - github:
+          url: https://github.com/cadets/llvm/
+          timeout: 30
+      - wall-display:
+          text: Clang/LLVM (cadets)
+    scm:
+      - git:
+          url: https://github.com/cadets/llvm
+          branches:
+            - '*/cadets'
+          basedir: llvm
+      - git:
+          url: https://github.com/cadets/clang
+          branches:
+            - '*/cadets'
+          basedir: llvm/tools/clang
+    triggers:
+      - github
+    axes:
+      - axis:
+          type: user-defined
+          name: BUILD_TYPE
+          values:
+           - Release
+           - Debug
+    builders:
+      - cmake:
+          source-dir: 'llvm'
+          generator: 'Ninja'
+          installation-name: 'InSearchPath'
+          build-type: '$BUILD_TYPE'
+          working-dir: '$BUILD_TYPE'
+          clean-build-dir: true
+      - shell: nice ninja -C $BUILD_TYPE -j16 -l16
+    publishers:
+      - slack-notification
