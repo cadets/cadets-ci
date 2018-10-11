@@ -20,3 +20,8 @@
     name: LLVM
     jobs:
       - 'LLVM-cadets'
+
+- project:
+    name: LOOM
+    jobs:
+      - 'Loom'
