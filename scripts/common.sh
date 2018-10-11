@@ -76,7 +76,7 @@ build_image()
 		makefs_flags="${makefs_flags} -f ${ufs_inodes}"
 	fi
 
-	sudo makefs ${makefs_flags} -f 200000  -Z rootfs.img ${directory}
+	sudo makefs ${makefs_flags} -Z rootfs.img ${directory}
 
 	mkimg -s gpt -f ${image_type} \
 		-b ufs/boot/pmbr \
