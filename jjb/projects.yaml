@@ -25,3 +25,8 @@
     name: LOOM
     jobs:
       - 'Loom'
+
+- project:
+    name: llvm-prov
+    jobs:
+      - 'llvm-prov'
