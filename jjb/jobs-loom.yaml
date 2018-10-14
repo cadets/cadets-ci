@@ -1,0 +1,47 @@
+- job-group:
+    name: 'Loom'
+    jobs:
+       - 'CADETS/Loom'
+
+- job-template:
+    name: 'CADETS/Loom'
+    project-type: matrix
+    block-downstream: false
+    block-upstream: true
+    quiet-period: 5
+    disabled: false
+    properties:
+      - github:
+          url: http://github.com/cadets/loom/
+          timeout: 30
+      - wall-display:
+          text: Loom
+    scm:
+      - git:
+          url: https://github.com/cadets/loom
+          branches:
+            - '*/master'
+          basedir: src
+    triggers:
+      - reverse:
+          jobs: 'CADETS/LLVM-cadets'
+      - github
+    axes:
+      - axis:
+          type: user-defined
+          name: BUILD_TYPE
+          values:
+            - Release
+            - Debug
+    builders:
+      - github-notifier
+      - shell: export LLVM_DIR=$WORKSPACE/../../../LLVM-cadets/BUILD_TYPE/$BUILD_TYPE/$BUILD_TYPE && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p build && cd build && cmake -G Ninja -D CMAKE_BUILD_TYPE=$BUILD_TYPE ../src && nice ninja LLVMLoom && nice ninja check || true
+    publishers:
+      - archive:
+          artifacts: 'build/lib/LLVMLoom.so'
+          only-if-success: true
+      - junit:
+          results: build/test/loom.xml
+          keep-long-stdio: false
+      - slack-notification
+

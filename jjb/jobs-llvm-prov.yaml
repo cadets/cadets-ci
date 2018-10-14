@@ -1,0 +1,47 @@
+- job-group:
+    name: 'llvm-prov'
+    jobs:
+       - 'CADETS/llvm-prov'
+
+- job-template:
+    name: 'CADETS/llvm-prov'
+    project-type: matrix
+    block-downstream: false
+    block-upstream: true
+    quiet-period: 5
+    disabled: false
+    properties:
+      - github:
+          url: http://github.com/cadets/llvm-prov/
+          timeout: 30
+      - wall-display:
+          text: llvm-prov
+    scm:
+      - git:
+          url: https://github.com/cadets/llvm-prov
+          branches:
+            - '*/master'
+          basedir: src
+    triggers:
+      - reverse:
+          jobs: 'Loom'
+          result: 'unstable'
+      - github
+    axes:
+      - axis:
+          type: user-defined
+          name: BUILD_TYPE
+          values:
+            - Release
+            - Debug
+    builders:
+      - github-notifier
+      - shell: export LLVM_DIR=$WORKSPACE/../../../LLVM-cadets/BUILD_TYPE/$BUILD_TYPE/$BUILD_TYPE && export LOOM_PREFIX=$WORKSPACE/../../../Loom/BUILD_TYPE/$BUILD_TYPE/build && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p build && cd build && cmake -G Ninja \     -D CMAKE_BUILD_TYPE=$BUILD_TYPE \     -D LOOM_PREFIX=$LOOM_PREFIX \     ../src && nice ninja && nice ninja check || true
+    publishers:
+      - archive:
+          artifacts: 'build/lib/LLVMProv.so'
+      - junit:
+          results: build/test/llvm-prov.xml
+          keep-long-stdio: false
+      - slack-notification
+
