@@ -49,8 +49,8 @@ initialize_root_dir()
 	     ${CI_ROOT}/configs/default/pkg_bootstrap \
 	     ${CI_ROOT}/configs/default/cadets_pkg_bootstrap \
 	     ${CI_ROOT}/configs/default/cadets_usr_bootstrap \
-	     ${CI_ROOT}/configs/default/firstboot \ 
-		${DIR}/etc/rc.d/
+	     ${CI_ROOT}/configs/default/firstboot \
+	     ${DIR}/etc/rc.d/
 }
 
 
