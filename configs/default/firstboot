@@ -58,6 +58,7 @@ stop_cmd=":"
 firstboot_start()
 {
     # first ensure that pkg points to the CADETS repo on allendale
+    
     mkdir -p /usr/local/etc/pkg/repos/
     # disable the FreeBSD pkg repo
     echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
@@ -101,6 +102,13 @@ EOF
     # update the pkg database
     pkg update
 
+    # next, install the requested users
+    for usr in ${cadets_usr_bootstrap_list}; do
+	pw useradd -n ${usr} -c ${usr} -s /bin/sh -m -w yes
+    done
+    
+    # finally, install the required packages
+    
     # The packages we install may install new rc scripts. Count the current
     # rc scripts in /usr/local/etc to detect this for later comparison.
     local_rc_scripts=`ls /usr/local/etc/rc.d | wc -l`
@@ -127,10 +135,6 @@ EOF
 	touch ${firstboot_sentinel}-reboot
     fi
 
-    # Finally, install the requested users
-    for usr in ${cadets_usr_bootstrap_list}; do
-	pw useradd -n ${usr} -c ${usr} -s /bin/sh -m -w yes
-    done
 }
 
 load_rc_config $name
