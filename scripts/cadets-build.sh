@@ -7,8 +7,8 @@ mkdir -p `make -C ${SRCDIR} -V MAKEOBJDIR`
 
 # Find CADETS toolchain:
 CADETS=${WORKSPACE}/..
-export LLVM_PREFIX=${CADETS}/LLVM-cadets/BUILD_TYPE/Release/Release
-export LOOM_PREFIX=${CADETS}/Loom/BUILD_TYPE/Release/build
+export LLVM_PREFIX=${CADETS}/LLVM-cadets/BUILD_TYPE/Release/llvm_build
+export LOOM_PREFIX=${CADETS}/Loom/BUILD_TYPE/Release/loom_build
 LLVM_PROV_TOP=${CADETS}/llvm-prov
 export LLVM_PROV_PREFIX=${LLVM_PROV_TOP}/BUILD_TYPE/Release/build
 
