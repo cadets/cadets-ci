@@ -36,12 +36,25 @@
             - Debug
     builders:
       - github-notifier
-      - shell: export LLVM_DIR=$WORKSPACE/../../../LLVM-cadets/BUILD_TYPE/$BUILD_TYPE/$BUILD_TYPE && export LOOM_PREFIX=$WORKSPACE/../../../Loom/BUILD_TYPE/$BUILD_TYPE/build && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p build && cd build && cmake -G Ninja \     -D CMAKE_BUILD_TYPE=$BUILD_TYPE \     -D LOOM_PREFIX=$LOOM_PREFIX \     ../src && nice ninja && nice ninja check || true
+      - copyartifact:
+          project: 'LLVM-cadets'
+          which-build: last-successful
+          fallback-to-last-successful: true
+          filter: 'llvm.txz'
+      - copyartifact:
+          project: 'Loom'
+          which-build: last-successful
+          fallback-to-last-successful: true
+          filter: 'loom.txz'
+      - shell: tar -zxvf BUILD_TYPE=$BUILD_TYPE/llvm.txz && tar -zxvf BUILD_TYPE=$BUILD_TYPE/loom.txz 
+      - shell: export LLVM_DIR=$WORKSPACE/llvm_build && export LOOM_PREFIX=$WORKSPACE/loom_build && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p llvm_prov_build && cd llvm_prov_build && cmake -G Ninja \     -D CMAKE_BUILD_TYPE=$BUILD_TYPE \     -D LOOM_PREFIX=$LOOM_PREFIX \     ../src && nice ninja && nice ninja check || true
+      - shell: rm -f build && ln -s llvm_prov_build build
+      - shell: tar -czf llvm-prov.txz llvm_prov_build
     publishers:
       - archive:
-          artifacts: 'build/lib/LLVMProv.so'
+          artifacts: 'llvm-prov.txz, llvm_prov_build/lib/LLVMProv.so'
       - junit:
-          results: build/test/llvm-prov.xml
+          results: llvm_prov_build/test/llvm-prov.xml
           keep-long-stdio: false
       - slack-notification
 

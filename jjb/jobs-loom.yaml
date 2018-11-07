@@ -35,13 +35,20 @@
             - Debug
     builders:
       - github-notifier
-      - shell: export LLVM_DIR=$WORKSPACE/../../../LLVM-cadets/BUILD_TYPE/$BUILD_TYPE/$BUILD_TYPE && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p build && cd build && cmake -G Ninja -D CMAKE_BUILD_TYPE=$BUILD_TYPE ../src && nice ninja LLVMLoom && nice ninja check || true
+      - copyartifact:
+          project: 'LLVM-cadets'
+          which-build: last-successful
+          fallback-to-last-successful: true
+          filter: 'llvm.txz'
+      - shell: tar -zxvf BUILD_TYPE=$BUILD_TYPE/llvm.txz
+      - shell: export LLVM_DIR=$WORKSPACE/llvm_build && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p loom_build && cd loom_build && cmake -G Ninja -D CMAKE_BUILD_TYPE=$BUILD_TYPE ../src && nice ninja LLVMLoom && nice ninja check || true
+      - shell: ln -s loom_build build
+      - shell: tar -czf loom.txz loom_build
     publishers:
       - archive:
-          artifacts: 'build/lib/LLVMLoom.so'
+          artifacts: 'loom.txz, loom_build/lib/LLVMLoom.so'
           only-if-success: true
       - junit:
-          results: build/test/loom.xml
+          results: loom_build/test/loom.xml
           keep-long-stdio: false
       - slack-notification
-

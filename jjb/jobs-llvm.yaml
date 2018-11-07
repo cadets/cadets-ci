@@ -46,8 +46,12 @@
           generator: 'Ninja'
           installation-name: 'InSearchPath'
           build-type: '$BUILD_TYPE'
-          working-dir: '$BUILD_TYPE'
+          working-dir: 'llvm_build'
           clean-build-dir: true
-      - shell: nice ninja -C $BUILD_TYPE -j16 -l16
+      - shell: nice ninja -C llvm_build -j16 -l16
+      - shell: ln -s llvm_build $BUILD_TYPE
+      - shell: tar -czf llvm.txz llvm_build
     publishers:
+      - archive:
+          artifacts: 'llvm.txz'
       - slack-notification

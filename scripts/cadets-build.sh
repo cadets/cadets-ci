@@ -7,10 +7,9 @@ mkdir -p `make -C ${SRCDIR} -V MAKEOBJDIR`
 
 # Find CADETS toolchain:
 CADETS=${WORKSPACE}/..
-export LLVM_PREFIX=${CADETS}/LLVM-cadets/BUILD_TYPE/Release/llvm_build
-export LOOM_PREFIX=${CADETS}/Loom/BUILD_TYPE/Release/loom_build
-LLVM_PROV_TOP=${CADETS}/llvm-prov
-export LLVM_PROV_PREFIX=${LLVM_PROV_TOP}/BUILD_TYPE/Release/build
+export LLVM_PREFIX=${WORKSPACE}/llvm_build
+export LOOM_PREFIX=${WORKSPACE}/loom_build
+export LLVM_PROV_PREFIX=${WORKSPACE}/llvm_prov_build
 
 export PATH=${LLVM_PREFIX}:${PATH}
 
@@ -25,7 +24,7 @@ cat > ${WORKSPACE}/src.conf <<EOF
 WITH_DTRACE_TESTS=yes
 EOF
 
-MAKE=${LLVM_PROV_TOP}/src/scripts/llvm-prov-make
+MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
 MAKECONF=/dev/null
 SRCCONF=${WORKSPACE}/src.conf
 TARGET=amd64
