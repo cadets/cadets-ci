@@ -16,6 +16,7 @@
           branches:
             - '*/master'
           basedir: .
+          submodule: {}
     triggers:
       - github
       - reverse:
