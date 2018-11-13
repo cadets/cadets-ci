@@ -30,3 +30,8 @@
     name: llvm-prov
     jobs:
       - 'llvm-prov'
+
+- project:
+    name: libpvm
+    jobs:
+      - 'libpvm'

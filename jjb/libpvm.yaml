@@ -1,0 +1,34 @@
+- job-group:
+    name: 'libpvm'
+    jobs:
+       - 'CADETS/libpvm'
+
+- job-template:
+    name: 'CADETS/libpvm'
+    defaults: global
+    properties:
+      - github:
+          url: http://github.com/cadets/libpvm-rs/
+          timeout: 30
+    scm:
+      - git:
+          url: https://github.com/cadets/libpvm-rs
+          branches:
+            - '*/master'
+          basedir: .
+    triggers:
+      - github
+      - reverse:
+          jobs: 'rustup'
+    builders:
+      - github-notifier
+      - shell:
+        - 'cargo clean'
+        - 'cd build'
+        - 'cmake ..'
+        - 'make'
+    publishers:
+      - archive:
+          artifacts: 'build/pvm2csv, target/release/libopus.so'
+          only-if-success: true
+      - slack-notification
