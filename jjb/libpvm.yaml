@@ -22,7 +22,8 @@
           jobs: 'rustup'
     builders:
       - github-notifier
-      - shell: 
+      - shell:
+        - 'cargo clean'
         - 'cd build'
         - 'cmake ..'
         - 'make'
