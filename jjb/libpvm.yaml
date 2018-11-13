@@ -18,6 +18,8 @@
           basedir: .
     triggers:
       - github
+      - reverse:
+          jobs: 'rustup'
     builders:
       - github-notifier
       - shell: 
