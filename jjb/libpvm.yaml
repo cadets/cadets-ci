@@ -27,6 +27,6 @@
       - shell: cargo clean && cd build && cmake .. && make
     publishers:
       - archive:
-          artifacts: 'build/pvm2csv, target/release/libopus.so'
+          artifacts: 'build/copususer, build/pvm2csv, target/release/libopus.so'
           only-if-success: true
       - slack-notification
