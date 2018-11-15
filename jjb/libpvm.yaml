@@ -16,15 +16,15 @@
           branches:
             - '*/master'
           basedir: .
-          submodule: {}
+          submodule:
+            disable: false
     triggers:
       - github
       - reverse:
           jobs: '../rustup'
     builders:
       - github-notifier
-      - shell:
-        - 'cargo clean && cd build && cmake .. && make'
+      - shell: cargo clean && cd build && cmake .. && make
     publishers:
       - archive:
           artifacts: 'build/pvm2csv, target/release/libopus.so'
