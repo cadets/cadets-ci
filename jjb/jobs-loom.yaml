@@ -10,6 +10,11 @@
     block-upstream: true
     quiet-period: 5
     disabled: false
+    logrotate:
+      daysToKeep: -1
+      numToKeep: -1
+      artifactDaysToKeep: -1
+      artifactNumToKeep: 3
     properties:
       - github:
           url: http://github.com/cadets/loom/
@@ -42,7 +47,6 @@
           filter: 'llvm.txz'
       - shell: tar -zxvf BUILD_TYPE=$BUILD_TYPE/llvm.txz
       - shell: export LLVM_DIR=$WORKSPACE/llvm_build && export PATH=$LLVM_DIR/bin:$PATH && mkdir -p loom_build && cd loom_build && cmake -G Ninja -D CMAKE_BUILD_TYPE=$BUILD_TYPE ../src && nice ninja LLVMLoom && nice ninja check || true
-      - shell: ln -s loom_build build
       - shell: tar -czf loom.txz loom_build
     publishers:
       - archive:

@@ -4,3 +4,8 @@
     concurrent: false
     block-downstream: false
     block-upstream: false
+    logrotate:
+      daysToKeep: -1
+      numToKeep: -1
+      artifactDaysToKeep: -1
+      artifactNumToKeep: 3

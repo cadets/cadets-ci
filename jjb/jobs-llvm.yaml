@@ -9,6 +9,11 @@
     concurrent: false
     block-downstream: true
     block-upstream: false
+    logrotate:
+      daysToKeep: -1
+      numToKeep: -1
+      artifactDaysToKeep: -1
+      artifactNumToKeep: 3
     execution-strategy:
       sequential: true
       touchstone:
@@ -49,7 +54,6 @@
           working-dir: 'llvm_build'
           clean-build-dir: true
       - shell: nice ninja -C llvm_build -j16 -l16
-      - shell: ln -s llvm_build $BUILD_TYPE
       - shell: tar -czf llvm.txz llvm_build
     publishers:
       - archive:
