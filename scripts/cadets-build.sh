@@ -18,7 +18,7 @@ export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
 find ${JENKINS_OBJ_ROOT} -depth 1 -not -name repo \
 	| xargs rm -rf
 
-JFLAG=${BUILDER_JFLAG}
+JFLAG=${BUILDER_JFLAG:-1}
 
 cat > ${WORKSPACE}/src.conf <<EOF
 WITH_DTRACE_TESTS=yes
