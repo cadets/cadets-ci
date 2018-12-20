@@ -51,12 +51,12 @@ tar rvf ${TAR_FILE} -C ${METADIR} .
 # run test VM image with bhyve
 TEST_VM_NAME=${JOB_NAME}-${BUILD_NUMBER}
 
-# ensure that the name is < 31 characters or else you will
+# ensure that the name is <= 31 characters or else you will
 # get an error like : vmcreate: Invalid argument
 # see https://wiki.freebsd.org/bhyve
 
 if [ ${#TEST_VM_NAME} -gt 31 ]; then
-    TEST_VM_NAME=${TEST_VM_NAME: -31}
+    TEST_VM_NAME=$(echo -n ${TEST_VM_NAME}|tail -c 31)
 fi
 
 sudo /usr/sbin/bhyvectl --vm=${TEST_VM_NAME} --destroy || true
