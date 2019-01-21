@@ -29,7 +29,7 @@ MAKECONF=/dev/null
 SRCCONF=${WORKSPACE}/src.conf
 TARGET=amd64
 TARGET_ARCH=amd64
-KERNCONF=CADETS-LITE
+KERNCONF=CADETS
 
 
 # Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
