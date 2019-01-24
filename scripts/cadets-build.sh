@@ -51,3 +51,14 @@ nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildkernel \
         KERNCONF=${KERNCONF} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
+nice ${MAKE} -j ${JFLAG} -DNO_CLEAN -DDB_FROM_SRC packages \
+        TARGET=${TARGET} \
+        TARGET_ARCH=${TARGET_ARCH} \
+        KERNCONF=${KERNCONF} \
+        __MAKE_CONF=${MAKECONF} \
+        SRCCONF=${SRCCONF}
+
+RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
+cd ..
+rm -rf release-artifacts
+ln -s ${RELEASE_DIR} release-artifacts
