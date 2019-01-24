@@ -51,32 +51,3 @@ nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildkernel \
         KERNCONF=${KERNCONF} \
         __MAKE_CONF=${MAKECONF} \
         SRCCONF=${SRCCONF}
-nice ${MAKE} -j ${JFLAG} -DNO_CLEAN -DDB_FROM_SRC packages \
-        TARGET=${TARGET} \
-        TARGET_ARCH=${TARGET_ARCH} \
-        KERNCONF=${KERNCONF} \
-        __MAKE_CONF=${MAKECONF} \
-        SRCCONF=${SRCCONF}
-
-cd release
-nice ${MAKE} clean
-nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC packagesystem \
-        TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-        MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
-
-
-## this is a hack to get mkimg(1) to be sourced from the dir below
-## this version of mkimg accepts the -a argument needed by the memstick target below
-#MK_IMG_PREFIX=/var/build/jon/obj/usr/home/jon/freebsd/current/amd64.amd64/usr.bin/mkimg
-#export PATH=${MK_IMG_PREFIX}:${PATH}
-
-nice make -DNO_ROOT -DNOPORTS -DNOSRC -DNODOC -DDB_FROM_SRC memstick \
-     TARGET=${TARGET} TARGET_ARCH=${TARGET_ARCH} \
-     WITH_COMPRESSED_IMAGES="YES" \
-     MAKE="make __MAKE_CONF=${MAKECONF} SRCCONF=${SRCCONF} KERNCONF=${KERNCONF}"
-
-cd ..
-RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
-cd ..
-rm -rf release-artifacts
-ln -s ${RELEASE_DIR} release-artifacts
