@@ -2,9 +2,6 @@
 
 SRCDIR=freebsd
 
-export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
-mkdir -p `make -C ${SRCDIR} -V MAKEOBJDIR`
-
 # Find CADETS toolchain:
 CADETS=${WORKSPACE}/..
 export LLVM_PREFIX=${WORKSPACE}/llvm_build
@@ -14,6 +11,7 @@ export LLVM_PROV_PREFIX=${WORKSPACE}/llvm_prov_build
 export PATH=${LLVM_PREFIX}:${PATH}
 
 # Clean up old obj tree but don't delete any package repositories.
+make -C ${SRCDIR} obj
 export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
 find ${JENKINS_OBJ_ROOT} -depth 1 -not -name repo \
 	| xargs rm -rf
