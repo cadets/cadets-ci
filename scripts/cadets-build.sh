@@ -5,12 +5,13 @@
 #
 
 JFLAG=${BUILDER_JFLAG:-16}
-MAKECONF=/dev/null
-SRCCONF=${WORKSPACE}/src.conf
+export MAKECONF=/dev/null
+export __MAKE_CONF=${MAKECONF}
+export SRCCONF=${WORKSPACE}/src.conf
 SRCDIR=freebsd
-TARGET=amd64
-TARGET_ARCH=amd64
-KERNCONF=CADETS
+export TARGET=amd64
+export TARGET_ARCH=amd64
+export KERNCONF=CADETS
 
 cat > ${SRCCONF} <<EOF
 WITH_DTRACE_TESTS=yes
@@ -44,24 +45,12 @@ MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
 export NO_WERROR=
 export WERROR=
 
+MAKE_FLAGS="-j ${JFLAG} -DNO_CLEAN"
+
 cd ${SRCDIR}
-nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildworld \
-        TARGET=${TARGET} \
-        TARGET_ARCH=${TARGET_ARCH} \
-        __MAKE_CONF=${MAKECONF} \
-        SRCCONF=${SRCCONF}
-nice ${MAKE} -j ${JFLAG} -DNO_CLEAN buildkernel \
-        TARGET=${TARGET} \
-        TARGET_ARCH=${TARGET_ARCH} \
-        KERNCONF=${KERNCONF} \
-        __MAKE_CONF=${MAKECONF} \
-        SRCCONF=${SRCCONF}
-nice ${MAKE} -j ${JFLAG} -DNO_CLEAN -DDB_FROM_SRC packages \
-        TARGET=${TARGET} \
-        TARGET_ARCH=${TARGET_ARCH} \
-        KERNCONF=${KERNCONF} \
-        __MAKE_CONF=${MAKECONF} \
-        SRCCONF=${SRCCONF}
+nice ${MAKE} ${MAKE_FLAGS} buildworld
+nice ${MAKE} ${MAKE_FLAGS} buildkernel
+nice ${MAKE} ${MAKE_FLAGS} -DDB_FROM_SRC packages
 
 RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
 cd ..
