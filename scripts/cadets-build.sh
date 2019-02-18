@@ -50,6 +50,14 @@ nice ${MAKE} ${MAKE_FLAGS} buildworld
 nice ${MAKE} ${MAKE_FLAGS} buildkernel
 nice ${MAKE} ${MAKE_FLAGS} -DDB_FROM_SRC packages
 
+#
+# Build base.txz and kernel.txz and make them visible by symlinking the default
+# directory (deep in the OBJDIR directory hierarchy) to the top level.
+#
+cd release
+${MAKE} -DNO_ROOT packagesystem
+cd ..
+
 cd ..
 rm -f release-artifacts
 ln -s ${OBJDIR}/release release-artifacts
