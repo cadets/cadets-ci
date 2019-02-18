@@ -55,7 +55,7 @@ nice ${MAKE} ${MAKE_FLAGS} -DDB_FROM_SRC packages
 # directory (deep in the OBJDIR directory hierarchy) to the top level.
 #
 cd release
-${MAKE} -DNO_ROOT packagesystem
+${MAKE} ${MAKE_FLAGS} -DNO_ROOT packagesystem
 cd ..
 
 cd ..
