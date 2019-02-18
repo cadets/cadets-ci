@@ -2,7 +2,7 @@
 
 Directory hierarchy
 
-  * `jjb`: Jenkins Job Builder configurations
+  * `config`: Configuration files for deployed images
   * `script`: Scripts for building and testing
 
 Jenkins Setup:
