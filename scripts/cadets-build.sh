@@ -30,10 +30,8 @@ export PATH=${LLVM_PREFIX}:${PATH}
 
 # Clean up old obj tree but don't delete any package repositories.
 make -C ${SRCDIR} obj
-find `make -C ${SRCDIR} -V .OBJDIR` \
-	-depth 1 \
-	-not -name repo \
-	| xargs rm -rf
+OBJDIR=`make -C ${SRCDIR} -V .OBJDIR`
+find ${OBJDIR} -depth 1 -not -name repo | xargs rm -rf
 
 MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
 
@@ -52,7 +50,6 @@ nice ${MAKE} ${MAKE_FLAGS} buildworld
 nice ${MAKE} ${MAKE_FLAGS} buildkernel
 nice ${MAKE} ${MAKE_FLAGS} -DDB_FROM_SRC packages
 
-RELEASE_DIR="./obj`pwd`/${TARGET}.${TARGET_ARCH}/release"
 cd ..
 rm -rf release-artifacts
-ln -s ${RELEASE_DIR} release-artifacts
+ln -s ${OBJDIR}/release release-artifacts
