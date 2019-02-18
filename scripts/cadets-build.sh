@@ -51,5 +51,5 @@ nice ${MAKE} ${MAKE_FLAGS} buildkernel
 nice ${MAKE} ${MAKE_FLAGS} -DDB_FROM_SRC packages
 
 cd ..
-rm -rf release-artifacts
+rm -f release-artifacts
 ln -s ${OBJDIR}/release release-artifacts
