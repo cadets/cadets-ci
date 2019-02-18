@@ -1,33 +1,40 @@
 #!/bin/sh
 
-SRCDIR=freebsd
+#
+# Set environment variables that are specific to our Jenkins environment:
+#
 
-# Find CADETS toolchain:
-CADETS=${WORKSPACE}/..
+JFLAG=${BUILDER_JFLAG:-16}
+MAKECONF=/dev/null
+SRCCONF=${WORKSPACE}/src.conf
+SRCDIR=freebsd
+TARGET=amd64
+TARGET_ARCH=amd64
+KERNCONF=CADETS
+
+cat > ${SRCCONF} <<EOF
+WITH_DTRACE_TESTS=yes
+EOF
+
+# CADETS toolchain:
 export LLVM_PREFIX=${WORKSPACE}/llvm_build
 export LOOM_PREFIX=${WORKSPACE}/loom_build
 export LLVM_PROV_PREFIX=${WORKSPACE}/llvm_prov_build
 
 export PATH=${LLVM_PREFIX}:${PATH}
 
+#
+# Actually build everything:
+#
+
 # Clean up old obj tree but don't delete any package repositories.
 make -C ${SRCDIR} obj
-export JENKINS_OBJ_ROOT=`make -C ${SRCDIR} -V .OBJDIR`
-find ${JENKINS_OBJ_ROOT} -depth 1 -not -name repo \
+find `make -C ${SRCDIR} -V .OBJDIR` \
+	-depth 1 \
+	-not -name repo \
 	| xargs rm -rf
 
-JFLAG=${BUILDER_JFLAG:-16}
-
-cat > ${WORKSPACE}/src.conf <<EOF
-WITH_DTRACE_TESTS=yes
-EOF
-
 MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
-MAKECONF=/dev/null
-SRCCONF=${WORKSPACE}/src.conf
-TARGET=amd64
-TARGET_ARCH=amd64
-KERNCONF=CADETS
 
 
 # Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
