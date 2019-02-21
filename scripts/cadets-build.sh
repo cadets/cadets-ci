@@ -88,8 +88,13 @@ echo "------------------------------------------------------------------------"
 # Clean up old obj tree but don't delete any package repositories.
 make -C ${SRCDIR} obj
 OBJDIR=`make -C ${SRCDIR} -V .OBJDIR`
-find ${OBJDIR} -depth 1 -not -name repo | xargs rm -rf
 
+if [ "${NO_CLEAN}" = "" ]
+then
+	echo "Cleaning up OBJDIR: ${OBJDIR}"
+	find ${OBJDIR} -depth 1 -not -name repo | xargs rm -rf
+	echo "OBJDIR clean"
+fi
 
 
 # Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
