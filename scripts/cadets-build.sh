@@ -43,6 +43,7 @@ echo "WITH_DTRACE_TESTS=yes" > ${SRCCONF}
 # (which may come from Jenkins or directly from the user):
 #
 
+MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
 export MAKECONF=/dev/null
 export __MAKE_CONF=${MAKECONF}
 
@@ -61,6 +62,7 @@ echo "LLVM_PREFIX:        ${LLVM_PREFIX}"
 echo "LOOM_PREFIX:        ${LOOM_PREFIX}"
 echo "LLVM_PROV_PREFIX:   ${LLVM_PROV_PREFIX}"
 echo "KERNCONF:           ${KERNCONF}"
+echo "MAKE:               ${MAKE}"
 echo "MAKECONF:           ${MAKECONF}"
 echo "PATH:               ${PATH}"
 echo "SRCCONF:            ${SRCCONF}"
@@ -79,7 +81,6 @@ make -C ${SRCDIR} obj
 OBJDIR=`make -C ${SRCDIR} -V .OBJDIR`
 find ${OBJDIR} -depth 1 -not -name repo | xargs rm -rf
 
-MAKE=${LLVM_PROV_PREFIX}/scripts/llvm-prov-make
 
 
 # Disable -Werror in both buildworld (NO_WERROR) and buildkernel (WERROR),
