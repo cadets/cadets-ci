@@ -28,6 +28,14 @@ then
 
 	SRCDIR=freebsd
 else
+	if [ "$1" = "" ]
+	then
+		echo "Usage:  $0 <source root>"
+		exit 1
+	else
+		SRCDIR="$1"
+	fi
+
 	: ${JFLAG:=4}
 	export SRCCONF=`mktemp /tmp/src.conf.XXXXXX`
 
