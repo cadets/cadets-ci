@@ -17,7 +17,7 @@ then
 	export JFLAG=${BUILDER_JFLAG:-16}
 
 	# Everything should be stored within the Jenkins job workspace:
-	: export ${MAKEOBJDIRPREFIX:=${WORKSPACE}/obj}
+	export MAKEOBJDIRPREFIX=${WORKSPACE}/obj
 	export SRCCONF=${WORKSPACE}/src.conf
 
 	# The CADETS toolchain should have been extracted from various artifact
