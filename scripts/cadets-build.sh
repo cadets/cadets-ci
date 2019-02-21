@@ -28,6 +28,7 @@ then
 
 	SRCDIR=freebsd
 else
+	: ${JFLAG:=4}
 	export SRCCONF=`mktemp /tmp/src.conf.XXXXXX`
 
 	check_envvar "LLVM_PREFIX"
