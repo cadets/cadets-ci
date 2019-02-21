@@ -2,7 +2,8 @@
 
 check_envvar()
 {
-	if ! [ -d "`echo $1`" ]
+	eval "var_path=\$$1"
+	if ! [ -d "$var_path" ]
 	then
 		>&2 echo "Warning: $1 not set"
 	fi
