@@ -62,40 +62,40 @@ firstboot_start()
     mkdir -p /usr/local/etc/pkg/repos/
     # disable the FreeBSD pkg repo
     echo "FreeBSD: { enabled: no }" > /usr/local/etc/pkg/repos/FreeBSD.conf
-    # enable the cadets-e4 repo
-    cat > /usr/local/etc/pkg/repos/cadets-e4.conf <<EOF
-# $cadets-e4$
+    # enable the cadets-e5 repo
+    cat > /usr/local/etc/pkg/repos/cadets-e5.conf <<EOF
+# $cadets-e5$
 #   
 # MIRROR_TYPE of NONE,  any of the URL schemes supported by
 #     libfetch(3) can be used, including: http://, https://, ftp://, or
 #     file://.  In addition a ssh:// URL scheme is also supported.
 # temp disable the pubkey signature type
 
-cadets-e4: {
+cadets-e5: {
   url: "https://allendale.engr.mun.ca/cadets/e4/packages/FreeBSD%3A12%3Aamd64/latest",
   mirror_type: "none",
 #  signature_type: "pubkey",
-#  pubkey: "/usr/share/keys/pkg/trusted/cadets-e4_pub.txt",
+#  pubkey: "/usr/share/keys/pkg/trusted/cadets-e5_pub.txt",
   enabled: yes
 }
 EOF
 
-    # add the public keys to the cadets-e4 repo
+    # add the public keys to the cadets-e5 repo
     mkdir -p /usr/share/keys/pkg/trusted
-    cat > /usr/share/keys/pkg/trusted/cadets-e4_pub.txt <<EOF
------BEGIN PUBLIC KEY-----
-MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2Xm7NWk1bfBYmuoINHj+
-7leABoiSSZwjKEpl03jsjgnrbNhSQHJJF/PhsBMvHP1nEDLcIYnP0HDrUp4DAjd9
-RZY4p+gggxz9sTt9z+ABsCY96BgRVLis6hXuBcpWuKGVCBA7qLnZh6XcDBPpAoGy
-fE4JOpCYyY3FFvDl8Au7lI+yU8idVPNCd2ZckWCJ7p05suUizCF9i/kYjFn5KlhK
-qi7Nu9N8kl3VlTI/Z+jRXFqR3iD+wCWj9hM0kK92KvNfCo4/DPVEImXm7DSGfLIe
-s6GNNkYWUyHK3fpMdD5g27zSUuWha456ZnIY1p/x9E7MNwlaVzm0tXwGogM7ZXqV
-fsDGdRg+bNoI1/UlZf3npF6Oi2Rb58CSl0juNdGB1IJnOl20i18GrN3nOLHCUOhS
-w0lxZQbQZunN6V6WHZKbcRuZvs7enOYqAD7kuZpJ6VpoEYetTSmjd+gwYLHPY1bB
-Ocm+o3W+O3DVSmh8nINFWmbd/RndDxELv+jxBftUcfJXH7xd23ozAxqacKiAQz9f
-y+YDP/InmEfAQbF2tYg9/koUyMgFc63j14JYf3Zzt9T+qHWzM7lYyuBZ4BP0FXLp
-B4l92TeFexR4F7vvSWT3UfiudyKaEPWRXtbgcJY+owv7wxxuJWIpxYIRvSxkrXHW
-RXEL+2P/8kgbTxYHBClE0pUCAwEAAQ==
+    cat > /usr/share/keys/pkg/trusted/cadets-e5_pub.txt <<EOF
+R-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAoLkHnTb9xE6yUV5YR//Y
+oDvEAZyAlZmzPeZBlOd3kjcIsqvzFUF4rab2/UZX3m+4F24h8GBTHqnUWJFBdqi/
+K3DHoqJxB3bIjL8XD3olICiF+Kq3caO94fb/LZXX61xzsirrBu4wWd0/p7e/+bWx
+WDAvNFSihOu/5B4A+bfRrmXwDcO9mlHRS0tp5n+z12calELm5m+RUuEyjms4KaUi
+QGIMpl+ViYEz8c6AHK64kNaaTJmGpSEFtm9JVTWh9ozsEjQz9zVo9aEluEgTsn+1
+PdW1CmvmTIdNkCEWDwB1QC5vWqmiGj21VD02qpdwutC2KaSi+yLe8F4nZcXXzXQK
+vqJq6PsCyn0ZB8qKWcmvWrQ94WpXNoh+OtTfNjUUnZeu2AVqdLJpwk4zVZq8vfGP
+13z+df7aN9YNHSfuD3vtWMG84Rp5wIlL/5kovpRLiWf0UNlDcAQouayLWkvxuoRT
+J4lIzbyM9D17soJMjDwJlgufiUlii/RFmgwG84qNIW4mk8N3DtpUC+FM1tA7NvM5
+92yiknwY+i+OPV0DggN+g86i53WNbosF1K1wgUlkobEJN5HPIdAJJeMG3/28yED1
+6RxtQnUY1YjfWNX5a4xBKbwMYHqs/0PRdCZ9rJP0xLBKJdAeGEUrOmhu4QqmovPQ
++3LIb8MFakMfCNxXD2Ye/80CAwEAAQ==
 -----END PUBLIC KEY-----
 EOF
 
