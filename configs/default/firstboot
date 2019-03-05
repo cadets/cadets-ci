@@ -72,7 +72,7 @@ firstboot_start()
 # temp disable the pubkey signature type
 
 cadets-e5: {
-  url: "https://allendale.engr.mun.ca/cadets/e4/packages/FreeBSD%3A12%3Aamd64/latest",
+  url: "https://allendale.engr.mun.ca/cadets/e5/packages/FreeBSD:13:amd64/latest",
   mirror_type: "none",
 #  signature_type: "pubkey",
 #  pubkey: "/usr/share/keys/pkg/trusted/cadets-e5_pub.txt",
